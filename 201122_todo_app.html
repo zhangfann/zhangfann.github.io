@@ -6,6 +6,7 @@
     <!--@vuex-1-->
     <script src="https://unpkg.com/vuex"></script>
     <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
         .title {
             text-indent: -25px;
@@ -38,6 +39,10 @@
             <input v-model="new_item" placeholder="输入新项目" />
             <button @click="handleAdd">+</button>
         </div>
+        <hr />
+        <div id="axios_data">
+            {{axios_data}}
+        </div>
     </div>
     <script>
         app = new Vue({
@@ -47,6 +52,7 @@
                 todo_list: [],
                 new_item: "",
                 search_item: "",
+                axios_data:"",
             },
             methods: {
                 filterStatement: function(todo) {
@@ -77,7 +83,16 @@
                         localStorage.getItem("todo_list")
                     );
                 }
+
+                axios.get('https://api.apiopen.top/getJoke?page=1&count=2&type=video')
+                .then(response=>{
+                    this.axios_data=response
+                })
+                .catch(error=>{
+                    console.log(error)
+                })
             },
+            
         });
     </script>
 </body>
