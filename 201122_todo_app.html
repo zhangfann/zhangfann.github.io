@@ -15,6 +15,14 @@
     </style>
 </head>
 <body>
+    <div id="google_search">
+        <script
+            async
+            src="https://cse.google.com/cse.js?cx=fa049d748daeb973d"
+        ></script>
+        <div class="gcse-search"></div>
+    </div>
+    <hr>
     <div id="app">
         <div id="search">
             <input v-model="search_item" placeholder="请输入搜索" />
@@ -32,41 +40,42 @@
         </div>
     </div>
     <script>
-        app=new Vue({
+        app = new Vue({
             el: "#app",
             data: {
                 //todo_list: [{ name: "民主与人权" }, { name: "合同的生效时间" }],
-                todo_list:[],
+                todo_list: [],
                 new_item: "",
                 search_item: "",
             },
             methods: {
-                filterStatement:function(todo){
-                    if(this.search_item==""){
-                        return true
-                    }else{
-                        return todo.name.search(this.search_item)!=-1
+                filterStatement: function(todo) {
+                    if (this.search_item == "") {
+                        return true;
+                    } else {
+                        return todo.name.search(this.search_item) != -1;
                     }
-                    
                 },
-                handleDelete: function (index) {
+                handleDelete: function(index) {
                     //TODO, 页面写好, 开始写函数了
                     this.todo_list.splice(index, 1);
                 },
-                handleSearch: function (search_item) {
-                    this.search_item=search_item
+                handleSearch: function(search_item) {
+                    this.search_item = search_item;
                 },
-                handleAdd: function () {
+                handleAdd: function() {
                     this.todo_list.push({
-                        name:this.new_item,
+                        name: this.new_item,
                     });
-                    parsed_list=JSON.stringify(this.todo_list)
-                    localStorage.setItem('todo_list',parsed_list)
+                    parsed_list = JSON.stringify(this.todo_list);
+                    localStorage.setItem("todo_list", parsed_list);
                 },
             },
-            mounted(){
-                if(localStorage.getItem('todo_list')){
-                    this.todo_list=JSON.parse(localStorage.getItem('todo_list'))
+            mounted() {
+                if (localStorage.getItem("todo_list")) {
+                    this.todo_list = JSON.parse(
+                        localStorage.getItem("todo_list")
+                    );
                 }
             },
         });
