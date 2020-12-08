@@ -15,14 +15,14 @@
     </style>
 </head>
 <body>
-    <div id="google_search">
+    <div id="google_search" class="google-searchbox">
         <script
             async
             src="https://cse.google.com/cse.js?cx=fa049d748daeb973d"
         ></script>
         <div class="gcse-search"></div>
     </div>
-    <hr>
+    <hr />
     <div id="app">
         <div id="search">
             <input v-model="search_item" placeholder="请输入搜索" />
@@ -81,3 +81,9 @@
         });
     </script>
 </body>
+<style>
+    .google-searchbox {
+        flex: 0 0 auto;
+        vertical-align: top;
+    }
+</style>
