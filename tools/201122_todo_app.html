@@ -17,6 +17,7 @@
 </head>
 <body>
     <div id="google_search" class="google-searchbox">
+        <!-- google搜索 -->
         <script
             async
             src="https://cse.google.com/cse.js?cx=fa049d748daeb973d"
@@ -25,6 +26,7 @@
     </div>
     <hr />
     <div id="app">
+        <!-- 记事本 -->
         <div id="search">
             <input v-model="search_item" placeholder="请输入搜索" />
             <button @click="handleSearch(search_item)">搜索</button>
@@ -52,7 +54,7 @@
                 todo_list: [],
                 new_item: "",
                 search_item: "",
-                axios_data:"",
+                axios_data: "",
             },
             methods: {
                 filterStatement: function(todo) {
@@ -84,17 +86,29 @@
                     );
                 }
 
-                axios.get('https://api.apiopen.top/getJoke?page=1&count=2&type=video')
-                .then(response=>{
-                    this.axios_data=response
-                })
-                .catch(error=>{
-                    console.log(error)
-                })
+                axios
+                    .get(
+                        "https://api.apiopen.top/getJoke?page=1&count=2&type=video"
+                    )
+                    .then((response) => {
+                        this.axios_data = response;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
             },
-            
         });
     </script>
+    <hr />
+    <div id="minipaint">
+        <!-- 一个类似ps的画布, https://github.com/viliusle/miniPaint -->
+        <iframe
+            style="width:100%; height:1000px;"
+            id="miniPaint"
+            src="https://viliusle.github.io/miniPaint/"
+        ></iframe>
+    </div>
+    <hr />
 </body>
 <style>
     .google-searchbox {
