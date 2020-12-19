@@ -1,0 +1,112 @@
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--@vuerouter-1 引入vuerouter-->
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <!--@vuex-1-->
+    <script src="https://unpkg.com/vuex"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <link
+        href="https://cdn.quilljs.com/1.0.0/quill.snow.css"
+        rel="stylesheet"
+    />
+    <style>
+        .title {
+            text-indent: -25px;
+            padding-left: 25px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="todo_app">
+        <div id="app">
+            <!-- 记事本 -->
+            <div id="search">
+                <input v-model="search_item" placeholder="请输入搜索" />
+                <button @click="handleSearch(search_item)">搜索</button>
+            </div>
+            <ul>
+                <li
+                    v-for="(todo, index) in todo_list"
+                    v-if="filterStatement(todo)"
+                >
+                    {{todo.name}}
+                    <button @click="handleDelete(index)">-</button>
+                </li>
+            </ul>
+            <div id="add_item">
+                <input v-model="new_item" placeholder="输入新项目" />
+                <button @click="handleAdd">+</button>
+            </div>
+            <hr />
+            <div id="axios_data">
+                {{axios_data}}
+            </div>
+        </div>
+        <script>
+            app = new Vue({
+                el: "#app",
+                data: {
+                    //todo_list: [{ name: "民主与人权" }, { name: "合同的生效时间" }],
+                    todo_list: [],
+                    new_item: "",
+                    search_item: "",
+                    axios_data: "",
+                },
+                methods: {
+                    filterStatement: function(todo) {
+                        if (this.search_item == "") {
+                            return true;
+                        } else {
+                            return todo.name.search(this.search_item) != -1;
+                        }
+                    },
+                    handleDelete: function(index) {
+                        //TODO, 页面写好, 开始写函数了
+                        this.todo_list.splice(index, 1);
+                    },
+                    handleSearch: function(search_item) {
+                        this.search_item = search_item;
+                    },
+                    handleAdd: function() {
+                        this.todo_list.push({
+                            name: this.new_item,
+                        });
+                        parsed_list = JSON.stringify(this.todo_list);
+                        localStorage.setItem("todo_list", parsed_list);
+                    },
+                },
+                mounted() {
+                    if (localStorage.getItem("todo_list")) {
+                        this.todo_list = JSON.parse(
+                            localStorage.getItem("todo_list")
+                        );
+                    }
+
+                    axios
+                        .get(
+                            "https://api.apiopen.top/getJoke?page=1&count=2&type=video"
+                        )
+                        .then((response) => {
+                            this.axios_data = response;
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                },
+            });
+        </script>
+    </div>
+
+    <hr />
+</body>
+<style>
+    .google-searchbox {
+        flex: 0 0 auto;
+        vertical-align: top;
+    }
+</style>

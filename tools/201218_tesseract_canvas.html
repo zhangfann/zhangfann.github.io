@@ -1,0 +1,58 @@
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--@vuerouter-1 引入vuerouter-->
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <!--@vuex-1-->
+    <script src="https://unpkg.com/vuex"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- tesseract -->
+    <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
+    <style>
+        .title {
+            text-indent: -25px;
+            padding-left: 25px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div id="img_from_canvas">
+        <img id="imageSrc" alt="No Image" />
+        <div class="caption">
+            imageSrc <input type="file" id="fileInput" name="file" />
+        </div>
+        <script type="module">
+            let imgElement = document.getElementById("imageSrc");
+            let inputElement = document.getElementById("fileInput");
+            inputElement.addEventListener(
+                "change",
+                (e) => {
+                    imgElement.src = URL.createObjectURL(e.target.files[0]);
+                },
+                false
+            );
+            imgElement.onload = function() {
+                Tesseract.recognize(
+                // 图片地址
+                imgElement,
+                // "eng",
+                "chi_sim",
+                { logger: (m) => console.log(m) }
+            ).then(({ data: { text } }) => {
+                // console.log(text);
+                alert(text);
+            });
+            };
+
+        </script>
+    </div>
+
+</body>
+<style>
+    .google-searchbox {
+        flex: 0 0 auto;
+        vertical-align: top;
+    }
+</style>

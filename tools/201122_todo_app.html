@@ -21,89 +21,7 @@
     </style>
 </head>
 <body>
-    <div id="image_viewer">
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.8.0/viewer.css"
-            rel="stylesheet"
-        />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.8.0/viewer.js"></script>
 
-        <div>
-            <img
-                id="image"
-                src="https://th.bing.com/th/id/OIP.aykcJoHt4AMDvusevtj1PwHaHa?pid=Api&rs=1"
-                alt="Picture"
-            />
-        </div>
-
-        <div>
-            <ul id="images">
-                <li>
-                    <img
-                        src="https://th.bing.com/th/id/OIP.OxeMbeihRhybIqRagicGpgHaEo?pid=Api&rs=1"
-                        alt="Picture 1"
-                    />
-                </li>
-                <li>
-                    <img
-                        src="https://cdn.wallpapersafari.com/31/63/7GCpjF.jpg"
-                        alt="Picture 2"
-                    />
-                </li>
-                <li>
-                    <img
-                        src="https://th.bing.com/th/id/OIP.oPv0wWvs8u2OW3I95pfJsgHaEo?pid=Api&rs=1"
-                        alt="Picture 3"
-                    />
-                </li>
-            </ul>
-        </div>
-
-        <script>
-            // View an image
-            const viewer = new Viewer(document.getElementById("image"), {
-                inline: true,
-                viewed() {
-                    viewer.zoomTo(1);
-                },
-            });
-
-            const gallery = new Viewer(document.getElementById("images"));
-        </script>
-    </div>
-    <hr />
-    <div id="quill">
-        <!-- Create the toolbar container -->
-        <div id="toolbar">
-            <button class="ql-bold">Bold</button>
-            <button class="ql-italic">Italic</button>
-        </div>
-
-        <!-- Create the editor container -->
-        <div id="editor">
-            <p>Hello World!</p>
-        </div>
-
-        <!-- Include the Quill library -->
-        <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
-
-        <!-- Initialize Quill editor -->
-        <script>
-            var editor = new Quill("#editor", {
-                modules: { toolbar: "#toolbar" },
-                theme: "snow",
-            });
-        </script>
-    </div>
-    <div id="google_search" class="google-searchbox">
-        <!-- google搜索 -->
-        <script
-            async
-            src="https://cse.google.com/cse.js?cx=fa049d748daeb973d"
-        ></script>
-        <div class="gcse-search"></div>
-    </div>
-    <hr />
     <div id="todo_app">
         <div id="app">
             <!-- 记事本 -->
@@ -125,9 +43,6 @@
                 <button @click="handleAdd">+</button>
             </div>
             <hr />
-            <div id="axios_data">
-                {{axios_data}}
-            </div>
         </div>
         <script>
             app = new Vue({
@@ -150,6 +65,8 @@
                     handleDelete: function(index) {
                         //TODO, 页面写好, 开始写函数了
                         this.todo_list.splice(index, 1);
+                        parsed_list = JSON.stringify(this.todo_list);
+                        localStorage.setItem("todo_list", parsed_list);
                     },
                     handleSearch: function(search_item) {
                         this.search_item = search_item;
@@ -184,7 +101,6 @@
         </script>
     </div>
 
-    <hr />
 </body>
 <style>
     .google-searchbox {
