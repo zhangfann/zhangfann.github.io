@@ -23,6 +23,8 @@
         <script type="text/javascript">
             let imgElement = document.getElementById("imageSrc");
             let inputElement = document.getElementById("fileInput");
+
+            // 上传图片
             inputElement.addEventListener(
                 "change",
                 (e) => {
@@ -31,11 +33,28 @@
                 false
             );
 
-            imgElement.onload = function() {
-                let mat = cv.imread(imgElement);
-                cv.imshow("canvasOutput", mat);
-                mat.delete();
+            //灰色图片
+            let gray_img = function() {
+                let src = cv.imread(imgElement);
+                let dst = new cv.Mat()
+                cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY)
+                cv.imshow("canvasOutput", dst);
+                src.delete();
+                dst.delete()
             };
+            
+            //直接显示图片
+            let display_img = function() {
+                let img = cv.imread(imgElement);
+                cv.imshow("canvasOutput", img);
+                img.delete();
+            };
+            // 处理图片
+            imgElement.onload = gray_img
+
+ 
+
+            // 加载opencv
             function onOpenCvReady() {
                 document.getElementById("status").innerHTML =
                     "OpenCV.js is ready.";

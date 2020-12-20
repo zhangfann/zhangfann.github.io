@@ -23,9 +23,11 @@
         <div class="caption">
             imageSrc <input type="file" id="fileInput" name="file" />
         </div>
+        <textarea id="text"></textarea>
         <script type="module">
             let imgElement = document.getElementById("imageSrc");
             let inputElement = document.getElementById("fileInput");
+            let textElement=document.getElementById("text")
             inputElement.addEventListener(
                 "change",
                 (e) => {
@@ -42,7 +44,8 @@
                 { logger: (m) => console.log(m) }
             ).then(({ data: { text } }) => {
                 // console.log(text);
-                alert(text);
+                // alert(text);
+                textElement.value=text
             });
             };
 

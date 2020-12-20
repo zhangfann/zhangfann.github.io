@@ -1,3 +1,6 @@
+
+
+不能直接打开dist/index.html, 必须使用server打开, 否则路径不对
 # vue_cli_project
 
 ## Project setup
