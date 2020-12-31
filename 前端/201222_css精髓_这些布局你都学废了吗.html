@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>css 精髓：这些布局你都学废了吗？ | 技术日报</title>
+    <meta name="generator" content="VuePress 1.7.1">
+    <script async="true" src="https://www.googletagmanager.com/gtag/js?id=UA-141019448-1"></script>
+    <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+      
+          gtag('config', 'UA-141019448-1');
+      </script>
+    <meta name="description" content="每日技术文章精选">
+    
+    <link rel="preload" href="/assets/css/0.styles.ceffaf74.css" as="style"><link rel="preload" href="/assets/js/app.6bfa7fe4.js" as="script"><link rel="preload" href="/assets/js/2.c13aa08d.js" as="script"><link rel="preload" href="/assets/js/33.690b2a97.js" as="script"><link rel="prefetch" href="/assets/js/10.bf63d664.js"><link rel="prefetch" href="/assets/js/11.e5bc376d.js"><link rel="prefetch" href="/assets/js/12.33125aa9.js"><link rel="prefetch" href="/assets/js/13.222d55b9.js"><link rel="prefetch" href="/assets/js/14.8b242c13.js"><link rel="prefetch" href="/assets/js/15.a3323fce.js"><link rel="prefetch" href="/assets/js/16.0e9ae12f.js"><link rel="prefetch" href="/assets/js/17.6a5ef751.js"><link rel="prefetch" href="/assets/js/18.8ac77eb3.js"><link rel="prefetch" href="/assets/js/19.f08e663c.js"><link rel="prefetch" href="/assets/js/20.ac70e986.js"><link rel="prefetch" href="/assets/js/21.fd47bc88.js"><link rel="prefetch" href="/assets/js/22.0259a11c.js"><link rel="prefetch" href="/assets/js/23.15c94850.js"><link rel="prefetch" href="/assets/js/24.d7f9ebe1.js"><link rel="prefetch" href="/assets/js/25.0929869e.js"><link rel="prefetch" href="/assets/js/26.8977a94a.js"><link rel="prefetch" href="/assets/js/27.21ff766f.js"><link rel="prefetch" href="/assets/js/28.08ccbcd1.js"><link rel="prefetch" href="/assets/js/29.1357dbf9.js"><link rel="prefetch" href="/assets/js/3.582414ce.js"><link rel="prefetch" href="/assets/js/30.744df7db.js"><link rel="prefetch" href="/assets/js/31.b12475a0.js"><link rel="prefetch" href="/assets/js/32.c5ba6b0c.js"><link rel="prefetch" href="/assets/js/34.00dfa958.js"><link rel="prefetch" href="/assets/js/35.e62513c5.js"><link rel="prefetch" href="/assets/js/36.64426c8f.js"><link rel="prefetch" href="/assets/js/37.9e4787ae.js"><link rel="prefetch" href="/assets/js/38.9ca1cbe6.js"><link rel="prefetch" href="/assets/js/39.890d0bf0.js"><link rel="prefetch" href="/assets/js/4.cdf5ca57.js"><link rel="prefetch" href="/assets/js/40.71d174ec.js"><link rel="prefetch" href="/assets/js/41.af225625.js"><link rel="prefetch" href="/assets/js/42.83bdbc69.js"><link rel="prefetch" href="/assets/js/43.a1f7f17f.js"><link rel="prefetch" href="/assets/js/44.efdee3fe.js"><link rel="prefetch" href="/assets/js/45.3e8bdd20.js"><link rel="prefetch" href="/assets/js/46.12488818.js"><link rel="prefetch" href="/assets/js/47.1e09f996.js"><link rel="prefetch" href="/assets/js/48.2cb5e747.js"><link rel="prefetch" href="/assets/js/49.cc45e9e9.js"><link rel="prefetch" href="/assets/js/5.b649da8c.js"><link rel="prefetch" href="/assets/js/50.bb0272eb.js"><link rel="prefetch" href="/assets/js/51.d5744fda.js"><link rel="prefetch" href="/assets/js/52.274d6bfa.js"><link rel="prefetch" href="/assets/js/53.a12d521b.js"><link rel="prefetch" href="/assets/js/6.a396de83.js"><link rel="prefetch" href="/assets/js/7.03daa1b7.js"><link rel="prefetch" href="/assets/js/8.150af887.js"><link rel="prefetch" href="/assets/js/9.f7aab732.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.ceffaf74.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">技术日报</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/索引/Search.html" class="nav-link">
+  搜索
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="分类" class="dropdown-title"><span class="title">分类</span> <span class="arrow down"></span></button> <button type="button" aria-label="分类" class="mobile-dropdown-title"><span class="title">分类</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/前端/" class="nav-link">
+  前端
+</a></li><li class="dropdown-item"><!----> <a href="/后端/" class="nav-link">
+  后端
+</a></li><li class="dropdown-item"><!----> <a href="/算法/" class="nav-link">
+  算法
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Select language" class="dropdown-title"><span class="title">选择语言</span> <span class="arrow down"></span></button> <button type="button" aria-label="Select language" class="mobile-dropdown-title"><span class="title">选择语言</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/en/" class="nav-link">
+  English
+</a></li><li class="dropdown-item"><!----> <a href="/前端/201222_css精髓_这些布局你都学废了吗.html" class="nav-link">
+  简体中文
+</a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/索引/Search.html" class="nav-link">
+  搜索
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="分类" class="dropdown-title"><span class="title">分类</span> <span class="arrow down"></span></button> <button type="button" aria-label="分类" class="mobile-dropdown-title"><span class="title">分类</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/前端/" class="nav-link">
+  前端
+</a></li><li class="dropdown-item"><!----> <a href="/后端/" class="nav-link">
+  后端
+</a></li><li class="dropdown-item"><!----> <a href="/算法/" class="nav-link">
+  算法
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Select language" class="dropdown-title"><span class="title">选择语言</span> <span class="arrow down"></span></button> <button type="button" aria-label="Select language" class="mobile-dropdown-title"><span class="title">选择语言</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/en/" class="nav-link">
+  English
+</a></li><li class="dropdown-item"><!----> <a href="/前端/201222_css精髓_这些布局你都学废了吗.html" class="nav-link">
+  简体中文
+</a></li></ul></div></div> <!----></nav>  <!----> <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Vue</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>CSS</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/前端/201222_css精髓_这些布局你都学废了吗.html" class="active sidebar-link">css 精髓：这些布局你都学废了吗？</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>React</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><p>掘金是一个帮助开发者成长的社区，是给开发者用的 Hacker News，给设计师用的 Designer News，和给产品经理用的 Medium。
+前言
+最近忙里偷闲，给自己加油充电的时候，发现自己脑海中布局这块非常的凌乱混杂，于是花了一些时间将一些常用的布局及其实现方法整理梳理了出来，在这里，分享给大家。</p> <p>单列布局
+单列布局是最常用的一种布局，一般是将一个元素作为容器，设置一个固定的宽度，水平居中对齐。</p> <p>单列布局一般有两种形式：</p> <p>(图片来源：https://blog.csdn.net/Ace_Arm/article/details/81036129)</p> <p>一栏布局
+一栏布局头部、内容、底部宽度一致</p> <p>效果图</p> <p>代码实现
+html</p> <header></header> <main></main> <footer></footer>
+复制代码
+css
+<p>header,footer{
+width: 1200px;
+height: 100px;
+margin: 0 auto;
+background: black;
+}
+main{
+width: 1200px;
+height: 600px;
+background: red;
+margin: 0 auto;
+}
+复制代码
+一栏布局（通栏）
+一栏布局（通栏）头部和底部宽度一致，占满整个页面，中间内容区域宽度较小不占满屏幕。</p> <p>效果图</p> <p>代码实现
+html</p> <header></header> <main></main> <footer></footer>
+复制代码
+css
+<p>header,footer{
+width: 100%;
+height: 100px;
+background: black;
+}
+main{
+width: 1200px;
+height: 600px;
+background: red;
+margin: 0 auto;
+}
+复制代码
+单列布局是最为基础和简单的一种，实现方法并不局限于以上两种，大家可自由发挥，找到更多的方法来实现。</p> <p>2 列布局
+2 列布局的使用频率也非常高，其实现效果主要就是将页面分割成左右宽度不等的两列。一般宽度较小的一列会设置为固定宽度，作为侧边栏之类的，而另一列则充满剩余宽度，作为内容区。</p> <p>在后台管理系统及 api 文档中使用较为广泛。</p> <p>效果图
+先来看看效果：</p> <p>代码实现
+实现两列布局的方法有很多，这里主要介绍两种方法。</p> <p>calc 函数
+calc() 函数用于动态计算长度值。实现思路很简单，侧边栏宽度固定，设置绝对定位，使其脱离文档流，内容区域通过 calc() 函数计算剩余宽度并设置宽度，再加一个 margin-left，值为侧边栏的宽度。</p> <p>代码如下：</p> <p>html</p> <div></div> <div></div>
+复制代码
+css
+<p>*{
+margin: 0;
+padding: 0;
+}
+body,html{
+width: 100%;
+height: 100%;
+}
+.slider,.main{
+height: 100%;
+}
+.slider{
+position: absolute;
+left: 0;
+top: 0;
+width: 100px;
+background: black;
+}
+.main{
+width: calc(100% - 100px);
+background: red;
+margin-left: 100px;
+}
+复制代码
+flex 属性
+通过 flex 属性实现思路也很简单，将父元素设置为 flex，侧边栏宽度固定，内容区域设置flex:1即可充满剩余区域。</p> <p>代码如下：</p> <p>html</p> <div></div> <div></div>
+复制代码
+css
+<p>*{
+margin: 0;
+padding: 0;
+}
+body,html{
+width: 100%;
+height: 100%;
+}
+body{
+display: flex;
+}
+.slider,.main{
+height: 100%;
+}
+.slider{
+width: 100px;
+background: black;
+}
+.main{
+flex: 1;<br>
+background: red;
+}
+复制代码
+3 列布局
+3 列布局在日常开发中使用频率也是很高的，其按照左中右的顺序进行排列，通常中间列最宽，左右两列次之。左右两边定宽，中间自适应，能根据屏幕大小做响应。</p> <p>效果图
+还是先来看看效果图</p> <p>代码实现
+三列布局的实现方法也很多，这里主要介绍两种（双飞翼布局、圣杯布局、flex 布局）</p> <p>在介绍双飞翼布局和圣杯布局之前要先说一下 margin 设置负值的作用：</p> <p>当 margin 的值设为负值的时候，元素会对应的像那个放向移动，比如 margin-left 为负值，元素则会左移</p> <p>双飞翼布局
+代码如下：</p> <p>html</p> <div><div><div>
+            中间
+        </div></div> <div>
+        左边
+    </div> <div>
+        右边
+    </div></div>
+复制代码
+css
+<ul><li>{
+margin: 0;
+padding: 0;
+}</li></ul> <p>body,
+html {
+width: 100%;
+height: 100%;
+}
+div{
+height: 100%;
+}
+.main&gt;div {
+float: left;
+}</p> <p>.left {
+width: 200px;
+background: red;
+margin-left: -100%;
+}</p> <p>.right {
+width: 200px;
+background: blue;
+margin-left: -200px;
+}</p> <p>.middle {
+width: 100%;
+background: yellow;</p> <p>}</p> <p>.content {
+margin-left: 200px;
+margin-right: 200px;
+}
+复制代码
+圣杯布局
+代码如下: html</p> <div><div>中间中间中间中间中间中间中间后</div> <div>左边</div> <div>右边</div></div>
+复制代码
+css
+<ul><li>{
+margin: 0;
+padding: 0;
+}</li></ul> <p>.main {
+height: 200px;
+padding: 0 150px 0 200px;
+background: greenyellow;
+*zoom: 1;
+}</p> <p>.left,
+.center,
+.right {
+float: left;
+}</p> <p>.center {
+width: 100%;
+height: 200px;
+background: red;
+}</p> <p>.left {
+width: 200px;
+height: 200px;
+background: yellow;
+margin-left: -100%;
+position: relative;
+left: -200px;
+}</p> <p>.right {
+width: 150px;
+height: 200px;
+background: gainsboro;
+margin-left: -150px;
+position: relative;
+left: 150px;
+}
+复制代码
+双飞翼布局其实和圣杯布局的精髓是一样的，都是通过设置负 margin 来实现元素的排布，不同的就是 html 结构，双飞翼是在 center 元素内部又设置了一层 inner-center 的元素并设置它的左右 margin，而非圣杯布局的 padding，来排除两边元素的覆盖。所以这两种布局原理基本一样，关键就是在于设置负 margin 的技巧，和元素浮动的相对定位技巧来实现。</p> <p>flex 布局
+代码如下: html</p> <div><div>左边定宽</div> <div>中间自适应</div> <div>右边定宽</div></div>
+复制代码
+css
+<ul><li>{
+padding: 0px;
+margin: 0px;
+}
+body,html{
+width: 100%;
+height: 100%;
+}
+body{
+display: flex;
+}</li></ul> <p>#left,
+#right {
+width: 100px;
+background-color: #0FC;
+}
+#main {
+flex: 1;
+background-color: #999;
+}
+复制代码
+如果不考虑浏览器兼容问题的话，运用 flex 布局是最简单的方式。</p> <p>垂直方向的布局（sticky footer）
+这种布局将页面分成上、中、下三个部分，上、下部分都为固定高度，中间部分高度不定。当页面高度小于浏览器高度时，下部分应固定在屏幕底部；当页面高度超出浏览器高度时，下部分应该随中间部分被撑开，显示在页面最底部。</p> <p>这种布局也称之为sticky footer，意思是下部分粘黏在屏幕底部。</p> <p>代码实现
+首先我们先构建简单的 HTML 代码</p> <body><div></div> <div></div></body>
+复制代码
+其中 content 为我们的内容区。下面开始介绍解决方法。
+<p>为内容区域添加最小的高度
+这种方法重要用 vh(viewpoint height) 来计算整体视窗的高度 (1vh 等于视窗高度的 1%), 然后减去底部 footer 的高度，从而求得内容区域的最小高度。例如我们可以添加如下样式：</p> <p>.content{
+min-height:calc(100vh-footer的高度);
+box-sizing:border-box;
+}<br>
+复制代码
+从而这个问题就解决了，但是如果页面的 footer 高度不同怎么办? 每一个页面都要重新计算一次，这是很麻烦的，所以这种方法虽然简单但却是不推荐的。</p> <p>使用 flex 布局
+这种方法就是利用 flex 布局对视窗高度进行分割。footer 的 flex 设为 0，这样 footer 获得其固有的高度; content 的 flex 设为 1，这样它会充满除去 footer 的其他部分。</p> <p>代码如下：</p> <p>body {
+display: flex;
+flex-flow: column;
+min-height: 100vh;
+}
+.content {
+flex: 1;
+}
+.footer{
+flex: 0;<br>
+}
+复制代码
+这样的布局简单使用，比较推荐。</p> <p>在 content 的外面可以添加一个 wrapper
+这种方法就是在 content 的外面添加一个包裹容易，将 html 代码改成这样：</p> <body><div><div></div></div> <div></div></body>
+复制代码
+然后添加以下样式：
+<p>html, body, .wrapper {
+height: 100%;
+}
+body &gt; .wrapper {
+height: auto;
+min-height: 100%;
+}
+.content {
+padding-bottom: 150px; /* 必须使用和footer相同的高度 <em>/
+}<br>
+.footer {
+position: relative;
+margin-top: -150px; /</em> footer高度的负值 */
+height: 150px;
+clear:both;
+}
+复制代码
+另外，为了保证兼容性，需要在 wrapper 上添加 clearfix 类。其代码如下：</p> <body><div><div></div></div> <div></div></body>
+复制代码
+.clearfix{
+     display: inline-block;
+}
+.clearfix:after {
+     content: &quot;.&quot;;
+     display: block;
+     height: 0;
+     clear: both;
+     visibility: hidden;
+}    
+复制代码
+ok, 好，完成了，这种方法也比较推荐，但就是加入的代码比较多，也改变了 html 的文档结构。
+<p>粘性布局（sticky）
+粘性布局是什么呢？我们先来看看效果演示</p> <p>没错，其实就是在页面滚动的时候保持元素（这里的是标题）在页面视图上方，也就是我们常常看到的 吸附效果。</p> <p>标题行设置了背景色。如果不设置背景色（背景透明），正常文档流的文字就会和标题行文字重叠在一起显示。</p> <p>sticky 定位的元素会遮住滚动而来的 “正常” 的文档流；后面的 sticky 元素会覆盖前面的 sticky 元素，就好像一层层的便利贴，是不是很酷~~。</p> <p>代码实现
+实现粘性布局主要依靠position的sticky属性。</p> <p>position: sticky;
+复制代码
+先来看看兼容性：</p> <p>从Can I use上查询可以看出，sticky 的兼容性并不是太好，所以大家使用的时候要慎重考虑，如果不要求兼容的情况，用这个还是相当的舒服了。</p> <p>下面给出一个简单的示例。</p> <p>html:</p> <main><header>标题一</header> <div></div> <header>标题二</header> <div></div> <header>标题三</header> <div></div> <header>标题四</header> <div></div></main>
+复制代码
+js(不想写太多 p 标签，所以用 js 生成，偷个懒):
+<p>let num = 20
+let html = ''
+for (var i = 0; i &lt; num; i++) {
+html += <code>&lt;p&gt;${i + 1}&lt;/p&gt;</code>
+}
+Array.prototype.slice.call(document.getElementsByClassName('content')).forEach(item=&gt;{
+item.innerHTML = html
+})
+复制代码
+css:</p> <p>main {
+width: 400px;
+height: 300px;
+margin: 200px auto;
+overflow: auto;
+}
+header {
+position: sticky;
+top: 0;
+height: 30px;
+background-color: blanchedalmond;
+}
+复制代码
+我是 monkeysoft，你的【三连】就是 monkeysoft 创作的最大动力，如果本篇文章有任何错误和建议，欢迎大家留言！</p> <p>本文首发于公众号【猴哥说前端】，文章持续更新，可以微信搜索 【猴哥说前端】关注公众号第一时间阅读。</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/前端/201231_写给前端的原生开发基础入门.html" class="prev">
+        写给前端的原生开发基础入门
+      </a></span> <span class="next"><a href="/前端/201203_react_sortable.html">
+        使用React Hook一步步创建一个可排序表格组件
+      </a>
+      →
+    </span></p></div> </main> <!----></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.6bfa7fe4.js" defer></script><script src="/assets/js/2.c13aa08d.js" defer></script><script src="/assets/js/33.690b2a97.js" defer></script>
+  </body>
+</html>
