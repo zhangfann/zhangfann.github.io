@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>“从零实现一个kv存储引擎” | 你好，世界！</title>
+    <meta name="generator" content="VuePress 1.7.1">
+    <script async="true" src="https://www.googletagmanager.com/gtag/js?id=UA-141019448-1"></script>
+    <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+      
+          gtag('config', 'UA-141019448-1');
+      </script>
+    <meta name="description" content="Hello World!">
+    <meta name="baidu-site-verification" content="code-HRrK6kdBX1">
+    
+    <link rel="preload" href="/assets/css/0.styles.9b71556a.css" as="style"><link rel="preload" href="/assets/js/app.591ae9d4.js" as="script"><link rel="preload" href="/assets/js/2.3d8c79a8.js" as="script"><link rel="preload" href="/assets/js/78.8e09e8c0.js" as="script"><link rel="prefetch" href="/assets/js/10.6d32f2e3.js"><link rel="prefetch" href="/assets/js/11.73ec703e.js"><link rel="prefetch" href="/assets/js/12.efc53944.js"><link rel="prefetch" href="/assets/js/13.940b8407.js"><link rel="prefetch" href="/assets/js/14.8dad1820.js"><link rel="prefetch" href="/assets/js/15.33471a35.js"><link rel="prefetch" href="/assets/js/16.372cabc2.js"><link rel="prefetch" href="/assets/js/17.e10f3f66.js"><link rel="prefetch" href="/assets/js/18.45c43172.js"><link rel="prefetch" href="/assets/js/19.d28459be.js"><link rel="prefetch" href="/assets/js/20.e6f7f320.js"><link rel="prefetch" href="/assets/js/21.f12bad6a.js"><link rel="prefetch" href="/assets/js/22.a7309ab4.js"><link rel="prefetch" href="/assets/js/23.419d3919.js"><link rel="prefetch" href="/assets/js/24.498bbf74.js"><link rel="prefetch" href="/assets/js/25.085068e9.js"><link rel="prefetch" href="/assets/js/26.009d7c43.js"><link rel="prefetch" href="/assets/js/27.e535e089.js"><link rel="prefetch" href="/assets/js/28.570c6c29.js"><link rel="prefetch" href="/assets/js/29.898580a1.js"><link rel="prefetch" href="/assets/js/3.86da7cbc.js"><link rel="prefetch" href="/assets/js/30.e8853646.js"><link rel="prefetch" href="/assets/js/31.83354cd7.js"><link rel="prefetch" href="/assets/js/32.02ea44e0.js"><link rel="prefetch" href="/assets/js/33.255c66b6.js"><link rel="prefetch" href="/assets/js/34.3e99648e.js"><link rel="prefetch" href="/assets/js/35.1e940d16.js"><link rel="prefetch" href="/assets/js/36.c06ed3ac.js"><link rel="prefetch" href="/assets/js/37.95cc530c.js"><link rel="prefetch" href="/assets/js/38.721763f3.js"><link rel="prefetch" href="/assets/js/39.9f9a344f.js"><link rel="prefetch" href="/assets/js/4.407389c8.js"><link rel="prefetch" href="/assets/js/40.0b3e0b70.js"><link rel="prefetch" href="/assets/js/41.a1efd1af.js"><link rel="prefetch" href="/assets/js/42.fa377529.js"><link rel="prefetch" href="/assets/js/43.6aca5ddb.js"><link rel="prefetch" href="/assets/js/44.f0eb21fd.js"><link rel="prefetch" href="/assets/js/45.073b2619.js"><link rel="prefetch" href="/assets/js/46.cf983ebe.js"><link rel="prefetch" href="/assets/js/47.515b0697.js"><link rel="prefetch" href="/assets/js/48.92311db0.js"><link rel="prefetch" href="/assets/js/49.c27bad07.js"><link rel="prefetch" href="/assets/js/5.3df56866.js"><link rel="prefetch" href="/assets/js/50.49a55883.js"><link rel="prefetch" href="/assets/js/51.42ac0bc4.js"><link rel="prefetch" href="/assets/js/52.efe78a20.js"><link rel="prefetch" href="/assets/js/53.6a5969f3.js"><link rel="prefetch" href="/assets/js/54.31bca8dd.js"><link rel="prefetch" href="/assets/js/55.2eb1e05a.js"><link rel="prefetch" href="/assets/js/56.53361058.js"><link rel="prefetch" href="/assets/js/57.e5742587.js"><link rel="prefetch" href="/assets/js/58.289c5b9d.js"><link rel="prefetch" href="/assets/js/59.039ed9ec.js"><link rel="prefetch" href="/assets/js/6.afc4d923.js"><link rel="prefetch" href="/assets/js/60.43573dfc.js"><link rel="prefetch" href="/assets/js/61.ba1d3405.js"><link rel="prefetch" href="/assets/js/62.fe753069.js"><link rel="prefetch" href="/assets/js/63.69e63479.js"><link rel="prefetch" href="/assets/js/64.7b38dfaa.js"><link rel="prefetch" href="/assets/js/65.c9c6873e.js"><link rel="prefetch" href="/assets/js/66.1f6c15dd.js"><link rel="prefetch" href="/assets/js/67.6eae7dc8.js"><link rel="prefetch" href="/assets/js/68.07deec77.js"><link rel="prefetch" href="/assets/js/69.e92480b5.js"><link rel="prefetch" href="/assets/js/7.9c101be4.js"><link rel="prefetch" href="/assets/js/70.87b5f25f.js"><link rel="prefetch" href="/assets/js/71.002a4453.js"><link rel="prefetch" href="/assets/js/72.daaa11e1.js"><link rel="prefetch" href="/assets/js/73.9c0b1289.js"><link rel="prefetch" href="/assets/js/74.235d944c.js"><link rel="prefetch" href="/assets/js/75.8afbc667.js"><link rel="prefetch" href="/assets/js/76.30662729.js"><link rel="prefetch" href="/assets/js/77.bca9b99a.js"><link rel="prefetch" href="/assets/js/79.572132c0.js"><link rel="prefetch" href="/assets/js/8.28a620af.js"><link rel="prefetch" href="/assets/js/80.64c990e4.js"><link rel="prefetch" href="/assets/js/81.07023598.js"><link rel="prefetch" href="/assets/js/82.773daa2d.js"><link rel="prefetch" href="/assets/js/83.d28d9fa3.js"><link rel="prefetch" href="/assets/js/84.7bf8bcb3.js"><link rel="prefetch" href="/assets/js/85.8691a693.js"><link rel="prefetch" href="/assets/js/9.05abd0b8.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.9b71556a.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">你好，世界！</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/索引/Search.html" class="nav-link">
+  Google站内搜索
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Select language" class="dropdown-title"><span class="title">选择语言</span> <span class="arrow down"></span></button> <button type="button" aria-label="Select language" class="mobile-dropdown-title"><span class="title">选择语言</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/en/" class="nav-link">
+  en-US
+</a></li><li class="dropdown-item"><!----> <a href="/素材/211011_1_从零实现一个kv存储引擎.html" class="nav-link">
+  简体中文
+</a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/索引/Search.html" class="nav-link">
+  Google站内搜索
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Select language" class="dropdown-title"><span class="title">选择语言</span> <span class="arrow down"></span></button> <button type="button" aria-label="Select language" class="mobile-dropdown-title"><span class="title">选择语言</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/en/" class="nav-link">
+  en-US
+</a></li><li class="dropdown-item"><!----> <a href="/素材/211011_1_从零实现一个kv存储引擎.html" class="nav-link">
+  简体中文
+</a></li></ul></div></div> <!----></nav>  <!----> <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>“从零实现一个kv存储引擎”</span> <!----></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><p>写这篇文章的目的，是为了帮助更多的人理解 rosedb，我会从零开始实现一个简单的包含 PUT、GET、DELETE 操作的 k-v 存储引擎。</p> <p>你可以将其看做是一个简易版本的 rosedb，就叫它 minidb 吧（mini 版本的 rosedb）。</p> <p>无论你是 Go 语言初学者，还是想进阶 Go 语言，或者是对 k-v 存储感兴趣，都可以尝试自己动手实现一下，我相信一定会对你帮助很大的。</p> <p>说到存储，其实解决的一个核心问题就是，怎么存放数据，怎么取出数据。在计算机的世界里，这个问题会更加的多样化。</p> <p>计算机当中有内存和磁盘，内存是易失性的，掉电之后存储的数据全部丢失，所以，如果想要系统崩溃再重启之后依然正常使用，就不得不将数据存储在非易失性介质当中，最常见的便是磁盘。</p> <p>所以，针对一个单机版的 k-v，我们需要设计数据在内存中应该怎么存放，在磁盘中应该怎么存放。</p> <p>当然，已经有很多优秀的前辈们去探究过了，并且已经有了经典的总结，主要将数据存储的模型分为了两类：B+ 树和 LSM 树。</p> <p>本文的重点不是讲这两种模型，所以只做简单介绍。</p> <p><strong>B+ 树</strong></p> <p><img src="https://pic1.zhimg.com/v2-c9e2ece8af2198c4113a8132c9b0dd8c_b.jpg" alt="img"></p> <p>B+ 树由二叉查找树演化而来，通过增加每层节点的数量，来降低树的高度，适配磁盘的页，尽量减少磁盘 IO 操作。</p> <p>B+ 树查询性能比较稳定，在写入或更新时，会查找并定位到磁盘中的位置并进行原地操作，注意这里是随机 IO，并且大量的插入或删除还有可能触发页分裂和合并，写入性能一般，因此 B+ 树适合读多写少的场景。</p> <p><strong>LSM 树</strong></p> <p><img src="https://pic1.zhimg.com/v2-324da90bb80890b5f9feb90b933c1978_b.jpg" alt="img"></p> <p>LSM Tree（Log Structured Merge Tree，日志结构合并树）其实并不是一种具体的树类型的数据结构，而只是一种数据存储的模型，它的核心思想基于一个事实：顺序 IO 远快于随机 IO。</p> <p>和 B+ 树不同，在 LSM 中，数据的插入、更新、删除都会被记录成一条日志，然后追加写入到磁盘文件当中，这样所有的操作都是顺序 IO，因此 LSM 比较适用于写多读少的场景。</p> <p>看了前面的两种基础存储模型，相信你已经对如何存取数据有了基本的了解，而 minidb 基于一种更加简单的存储结构，总体上它和 LSM 比较类似。</p> <p>我先不直接干巴巴的讲这个模型的概念，而是通过一个简单的例子来看一下 minidb 当中数据 PUT、GET、DELETE 的流程，借此让你理解这个简单的存储模型。</p> <p><strong>PUT</strong></p> <p>我们需要存储一条数据，分别是 key 和 value，首先，为预防数据丢失，我们会将这个 key 和 value 封装成一条记录（这里把这条记录叫做 Entry），追加到磁盘文件当中。Entry 的里面的内容，大致是 key、value、key 的大小、value 的大小、写入的时间。</p> <p><img src="https://pic2.zhimg.com/v2-5dbd0e85d0d6387d866fd696fc978b95_b.jpg" alt="img"></p> <p>所以磁盘文件的结构非常简单，就是多个 Entry 的集合。</p> <p><img src="https://pic3.zhimg.com/v2-8a261d22994575578380f901bc0c8a5e_b.jpg" alt="img"></p> <p>磁盘更新完了，再更新内存，内存当中可以选择一个简单的数据结构，比如哈希表。哈希表的 key 对应存放的是 Entry 在磁盘中的位置，便于查找时进行获取。</p> <p>这样，在 minidb 当中，一次数据存储的流程就完了，只有两个步骤：一次磁盘记录的追加，一次内存当中的索引更新。</p> <p><strong>GET</strong></p> <p>再来看 GET 获取数据，首先在内存当中的哈希表查找到 key 对应的索引信息，这其中包含了 value 存储在磁盘文件当中的位置，然后直接根据这个位置，到磁盘当中去取出 value 就可以了。</p> <p><strong>DEL</strong></p> <p>然后是删除操作，这里并不会定位到原记录进行删除，而还是将删除的操作封装成 Entry，追加到磁盘文件当中，只是这里需要标识一下 Entry 的类型是删除。</p> <p>然后在内存当中的哈希表删除对应的 key 的索引信息，这样删除操作便完成了。</p> <p>可以看到，不管是插入、查询、删除，都只有两个步骤：一次内存中的索引更新，一次磁盘文件的记录追加。所以无论数据规模如何， minidb 的写入性能十分稳定。</p> <p><strong>Merge</strong></p> <p>最后再来看一个比较重要的操作，前面说到，磁盘文件的记录是一直在追加写入的，这样会导致文件容量也一直在增加。并且对于同一个 key，可能会在文件中存在多条 Entry（回想一下，更新或删除 key 内容也会追加记录），那么在数据文件当中，其实存在冗余的 Entry 数据。</p> <p>举一个简单的例子，比如针对 key A， 先后设置其 value 为 10、20、30，那么磁盘文件中就有三条记录：</p> <p><img src="https://pic4.zhimg.com/v2-e4c9e8f90b73dd8d581e4e1f2e4d8cdb_b.jpg" alt="img"></p> <p>此时 A 的最新值是 30，那么其实前两条记录已经是无效的了。</p> <p>针对这种情况，我们需要定期合并数据文件，清理无效的 Entry 数据，这个过程一般叫做 merge。</p> <p>merge 的思路也很简单，需要取出原数据文件的所有 Entry，将有效的 Entry 重新写入到一个新建的临时文件中，最后将原数据文件删除，临时文件就是新的数据文件了。</p> <p><img src="https://pic2.zhimg.com/v2-7383e023ae70465b4ad5c61dac1c2e69_b.jpg" alt="img"></p> <p>这就是 minidb 底层的数据存储模型，它的名字叫做 bitcask，当然 rosedb 采用的也是这种模型。它本质上属于类 LSM 的模型，核心思想是利用顺序 IO 来提升写性能，只不过在实现上，比 LSM 简单多了。</p> <p>介绍完了底层的存储模型，就可以开始代码实现了，我将完整的代码实现放到了我的 Github 上面，地址：</p> <p>文章当中就截取部分关键的代码。</p> <p>首先是打开数据库，需要先加载数据文件，然后取出文件中的 Entry 数据，还原索引状态，关键部分代码如下：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>func Open(dirPath string) (*MiniDB, error) {
+   // 如果数据库目录不存在，则新建一个
+   if _, err := os.Stat(dirPath); os.IsNotExist(err) {
+      if err := os.MkdirAll(dirPath, os.ModePerm); err != nil {
+         return nil, err
+      }
+   }
+
+   // 加载数据文件
+   dbFile, err := NewDBFile(dirPath)
+   if err != nil {
+      return nil, err
+   }
+
+   db := &amp;MiniDB{
+      dbFile: dbFile,
+      indexes: make(map[string]int64),
+      dirPath: dirPath,
+   }
+
+   // 加载索引
+   db.loadIndexesFromFile(dbFile)
+   return db, nil
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br></div></div><p>再来看看 PUT 方法，流程和上面的描述一样，先更新磁盘，写入一条记录，再更新内存：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>func (db *MiniDB) Put(key []byte, value []byte) (err error) {
+  
+   offset := db.dbFile.Offset
+   // 封装成 Entry
+   entry := NewEntry(key, value, PUT)
+   // 追加到数据文件当中
+   err = db.dbFile.Write(entry)
+
+   // 写到内存
+   db.indexes[string(key)] = offset
+   return
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>GET 方法需要先从内存中取出索引信息，判断是否存在，不存在直接返回，存在的话从磁盘当中取出数据。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>func (db *MiniDB) Get(key []byte) (val []byte, err error) {
+   // 从内存当中取出索引信息
+   offset, ok := db.indexes[string(key)]
+   // key 不存在
+   if !ok {
+      return
+   }
+
+   // 从磁盘中读取数据
+   var e *Entry
+   e, err = db.dbFile.Read(offset)
+   if err != nil &amp;&amp; err != io.EOF {
+      return
+   }
+   if e != nil {
+      val = e.Value
+   }
+   return
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><p>DEL 方法和 PUT 方法类似，只是 Entry 被标识为了 DEL ，然后封装成 Entry 写到文件当中：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>func (db *MiniDB) Del(key []byte) (err error) {
+   // 从内存当中取出索引信息
+   _, ok := db.indexes[string(key)]
+   // key 不存在，忽略
+   if !ok {
+      return
+   }
+
+   // 封装成 Entry 并写入
+   e := NewEntry(key, nil, DEL)
+   err = db.dbFile.Write(e)
+   if err != nil {
+      return
+   }
+
+   // 删除内存中的 key
+   delete(db.indexes, string(key))
+   return
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><p>最后是重要的合并数据文件操作，流程和上面的描述一样，关键代码如下：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>func (db *MiniDB) Merge() error {
+   // 读取原数据文件中的 Entry
+   for {
+      e, err := db.dbFile.Read(offset)
+      if err != nil {
+         if err == io.EOF {
+            break
+         }
+         return err
+      }
+      // 内存中的索引状态是最新的，直接对比过滤出有效的 Entry
+      if off, ok := db.indexes[string(e.Key)]; ok &amp;&amp; off == offset {
+         validEntries = append(validEntries, e)
+      }
+      offset += e.GetSize()
+   }
+
+   if len(validEntries) &gt; 0 {
+      // 新建临时文件
+      mergeDBFile, err := NewMergeDBFile(db.dirPath)
+      if err != nil {
+         return err
+      }
+      defer os.Remove(mergeDBFile.File.Name())
+
+      // 重新写入有效的 entry
+      for _, entry := range validEntries {
+         writeOff := mergeDBFile.Offset
+         err := mergeDBFile.Write(entry)
+         if err != nil {
+            return err
+         }
+
+         // 更新索引
+         db.indexes[string(entry.Key)] = writeOff
+      }
+
+      // 删除旧的数据文件
+      os.Remove(db.dbFile.File.Name())
+      // 临时文件变更为新的数据文件
+      os.Rename(mergeDBFile.File.Name(), db.dirPath+string(os.PathSeparator)+FileName)
+
+      db.dbFile = mergeDBFile
+   }
+   return nil
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br></div></div><p>除去测试文件，minidb 的核心代码只有 300 行，麻雀虽小，五脏俱全，它已经包含了 bitcask 这个存储模型的主要思想，并且也是 rosedb 的底层基础。</p> <p>理解了 minidb 之后，基本上就能够完全掌握 bitcask 这种存储模型，多花点时间，相信对 rosedb 也能够游刃有余了。</p> <p>进一步，如果你对 k-v 存储这方面感兴趣，可以更加深入的去研究更多相关的知识，bitcask 虽然简洁易懂，但是问题也不少，rosedb 在实践的过程当中，对其进行了一些优化，但目前还是有不少的问题存在。</p> <p>有的人可能比较疑惑，bitcask 这种模型简单，是否只是一个玩具，在实际的生产环境中有应用吗？答案是肯定的。</p> <p>bitcask 最初源于 Riak 这个项目的底层存储模型，而 Riak 是一个分布式 k-v 存储，在 NoSQL 的排名中也名列前茅：</p> <p><img src="https://pic4.zhimg.com/v2-1105a48b613138fdf7c03ee2166aced7_b.jpg" alt="img"></p> <p>豆瓣所使用的的分布式 k-v 存储，其实也是基于 bitcask 模型，并对其进行了很多优化。目前纯粹基于 bitcask 模型的 k-v 并不是很多，所以你可以多去看看 rosedb 的代码，可以提出自己的意见建议，一起完善这个项目。</p> <p>最后，附上相关项目地址：</p> <p>minidb：<a href="https://link.zhihu.com/?target=https%3A//github.com/roseduan/minidb" target="_blank" rel="noopener noreferrer">https://github.com/roseduan/minidb<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>rosedb：<a href="https://link.zhihu.com/?target=https%3A//github.com/roseduan/rosedb" target="_blank" rel="noopener noreferrer">https://github.com/roseduan/rosedb<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>参考资料：</p> <p><a href="https://link.zhihu.com/?target=https%3A//riak.com/assets/bitcask-intro.pdf" target="_blank" rel="noopener noreferrer">https://riak.com/assets/bitcask-intro.pdf<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p><a href="https://link.zhihu.com/?target=https%3A//medium.com/%40arpitbhayani/bitcask-a-log-structured-fast-kv-store-c6c728a9536b" target="_blank" rel="noopener noreferrer">https://medium.com/@arpitbhayani/bitcask-a-log-structured-fast-kv-store-c6c728a9536b<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>全文完</p> <p>本文由 <a href="http://ksria.com/simpread" target="_blank" rel="noopener noreferrer">简悦 SimpRead<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 优化，用以提升阅读体验</p> <p>使用了 全新的简悦词法分析引擎 beta，<a href="http://ksria.com/simpread/docs/#/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%BC%95%E6%93%8E" target="_blank" rel="noopener noreferrer">点击查看<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>详细说明</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">2021/10/11 下午7:32:29</span></div></footer> <!----> </main> <div class="footer-wrapper footer"><span><a href="https://beian.miit.gov.cn/">豫ICP备20003255号</a></span> <!----></div></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.591ae9d4.js" defer></script><script src="/assets/js/2.3d8c79a8.js" defer></script><script src="/assets/js/78.8e09e8c0.js" defer></script>
+  </body>
+</html>
