@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>linux中的虚拟网络接口 | 小张笔记</title>
+    <meta name="generator" content="VuePress 1.7.1">
+    <script async="true" src="https://www.googletagmanager.com/gtag/js?id=UA-141019448-1"></script>
+    <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+      
+          gtag('config', 'UA-141019448-1');
+      </script>
+    <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2468672938537807" crossorigin="anonymous"></script>
+    <meta name="description" content="Little Zhang's Note">
+    <meta name="baidu-site-verification" content="code-HRrK6kdBX1">
+    
+    <link rel="preload" href="/assets/css/0.styles.9b71556a.css" as="style"><link rel="preload" href="/assets/js/app.16532cd3.js" as="script"><link rel="preload" href="/assets/js/2.a6173bc2.js" as="script"><link rel="preload" href="/assets/js/96.b4b5321b.js" as="script"><link rel="prefetch" href="/assets/js/10.bf63d664.js"><link rel="prefetch" href="/assets/js/100.ea337079.js"><link rel="prefetch" href="/assets/js/101.a893326d.js"><link rel="prefetch" href="/assets/js/102.c2a49b34.js"><link rel="prefetch" href="/assets/js/103.33a28e14.js"><link rel="prefetch" href="/assets/js/104.34e548f1.js"><link rel="prefetch" href="/assets/js/105.9beaef90.js"><link rel="prefetch" href="/assets/js/106.405345ff.js"><link rel="prefetch" href="/assets/js/107.c70578f9.js"><link rel="prefetch" href="/assets/js/108.0ed57e1e.js"><link rel="prefetch" href="/assets/js/109.0daea8c1.js"><link rel="prefetch" href="/assets/js/11.cc0ed408.js"><link rel="prefetch" href="/assets/js/110.01ada224.js"><link rel="prefetch" href="/assets/js/111.0e2b4d44.js"><link rel="prefetch" href="/assets/js/112.89ba3573.js"><link rel="prefetch" href="/assets/js/113.b0d9e8f0.js"><link rel="prefetch" href="/assets/js/114.fa331a4a.js"><link rel="prefetch" href="/assets/js/115.62f1946c.js"><link rel="prefetch" href="/assets/js/116.2b8e6798.js"><link rel="prefetch" href="/assets/js/117.e4538ae6.js"><link rel="prefetch" href="/assets/js/118.e182dce6.js"><link rel="prefetch" href="/assets/js/119.6aa9d69b.js"><link rel="prefetch" href="/assets/js/12.aeef417b.js"><link rel="prefetch" href="/assets/js/120.8fd66377.js"><link rel="prefetch" href="/assets/js/121.bfa7b140.js"><link rel="prefetch" href="/assets/js/122.be15f654.js"><link rel="prefetch" href="/assets/js/123.5ae7837f.js"><link rel="prefetch" href="/assets/js/124.3336cd42.js"><link rel="prefetch" href="/assets/js/125.1799f25f.js"><link rel="prefetch" href="/assets/js/126.06697a0a.js"><link rel="prefetch" href="/assets/js/127.765badf3.js"><link rel="prefetch" href="/assets/js/13.e7ff1b14.js"><link rel="prefetch" href="/assets/js/14.96cae973.js"><link rel="prefetch" href="/assets/js/15.b59d47ee.js"><link rel="prefetch" href="/assets/js/16.63ef0330.js"><link rel="prefetch" href="/assets/js/17.2d6ec038.js"><link rel="prefetch" href="/assets/js/18.2bef54a4.js"><link rel="prefetch" href="/assets/js/19.a544c0c9.js"><link rel="prefetch" href="/assets/js/20.11ccc254.js"><link rel="prefetch" href="/assets/js/21.6b476e98.js"><link rel="prefetch" href="/assets/js/22.f9bfbad9.js"><link rel="prefetch" href="/assets/js/23.76b7cdec.js"><link rel="prefetch" href="/assets/js/24.c7e3e56c.js"><link rel="prefetch" href="/assets/js/25.920e499d.js"><link rel="prefetch" href="/assets/js/26.be30f22c.js"><link rel="prefetch" href="/assets/js/27.da07849f.js"><link rel="prefetch" href="/assets/js/28.e8c0c316.js"><link rel="prefetch" href="/assets/js/29.218d6a39.js"><link rel="prefetch" href="/assets/js/3.582414ce.js"><link rel="prefetch" href="/assets/js/30.e60063bd.js"><link rel="prefetch" href="/assets/js/31.31ea968a.js"><link rel="prefetch" href="/assets/js/32.b7359ea6.js"><link rel="prefetch" href="/assets/js/33.292dffe7.js"><link rel="prefetch" href="/assets/js/34.b8c8ba5b.js"><link rel="prefetch" href="/assets/js/35.0c6301ca.js"><link rel="prefetch" href="/assets/js/36.f5271765.js"><link rel="prefetch" href="/assets/js/37.d18fb26c.js"><link rel="prefetch" href="/assets/js/38.b909d32b.js"><link rel="prefetch" href="/assets/js/39.a0462821.js"><link rel="prefetch" href="/assets/js/4.635f1a3c.js"><link rel="prefetch" href="/assets/js/40.a98e7479.js"><link rel="prefetch" href="/assets/js/41.87c56094.js"><link rel="prefetch" href="/assets/js/42.8cfb0a65.js"><link rel="prefetch" href="/assets/js/43.9d5381d4.js"><link rel="prefetch" href="/assets/js/44.02853c04.js"><link rel="prefetch" href="/assets/js/45.8794fb7e.js"><link rel="prefetch" href="/assets/js/46.fe22afa4.js"><link rel="prefetch" href="/assets/js/47.3b724023.js"><link rel="prefetch" href="/assets/js/48.c5920a97.js"><link rel="prefetch" href="/assets/js/49.c4163dc8.js"><link rel="prefetch" href="/assets/js/5.6c7f4d05.js"><link rel="prefetch" href="/assets/js/50.cff2c9f2.js"><link rel="prefetch" href="/assets/js/51.6d9990df.js"><link rel="prefetch" href="/assets/js/52.ba3dd374.js"><link rel="prefetch" href="/assets/js/53.4ce00275.js"><link rel="prefetch" href="/assets/js/54.3f8bdd35.js"><link rel="prefetch" href="/assets/js/55.081a6724.js"><link rel="prefetch" href="/assets/js/56.dd671968.js"><link rel="prefetch" href="/assets/js/57.60e551e3.js"><link rel="prefetch" href="/assets/js/58.921e3d14.js"><link rel="prefetch" href="/assets/js/59.6468404c.js"><link rel="prefetch" href="/assets/js/6.bb33fed3.js"><link rel="prefetch" href="/assets/js/60.fa65e7a8.js"><link rel="prefetch" href="/assets/js/61.d042b745.js"><link rel="prefetch" href="/assets/js/62.518ff306.js"><link rel="prefetch" href="/assets/js/63.5cfcbcb3.js"><link rel="prefetch" href="/assets/js/64.d68686c2.js"><link rel="prefetch" href="/assets/js/65.e2e3591a.js"><link rel="prefetch" href="/assets/js/66.426d3ada.js"><link rel="prefetch" href="/assets/js/67.2f1c3534.js"><link rel="prefetch" href="/assets/js/68.686b12e2.js"><link rel="prefetch" href="/assets/js/69.10d835d5.js"><link rel="prefetch" href="/assets/js/7.03daa1b7.js"><link rel="prefetch" href="/assets/js/70.1ab06bac.js"><link rel="prefetch" href="/assets/js/71.f1ae4d6c.js"><link rel="prefetch" href="/assets/js/72.f304af9c.js"><link rel="prefetch" href="/assets/js/73.15e90660.js"><link rel="prefetch" href="/assets/js/74.7da9b483.js"><link rel="prefetch" href="/assets/js/75.9391bbcc.js"><link rel="prefetch" href="/assets/js/76.5877f38a.js"><link rel="prefetch" href="/assets/js/77.7c7b532f.js"><link rel="prefetch" href="/assets/js/78.70837efa.js"><link rel="prefetch" href="/assets/js/79.55c0179b.js"><link rel="prefetch" href="/assets/js/8.150af887.js"><link rel="prefetch" href="/assets/js/80.8bef139f.js"><link rel="prefetch" href="/assets/js/81.8660d0c2.js"><link rel="prefetch" href="/assets/js/82.6df65bf8.js"><link rel="prefetch" href="/assets/js/83.cb1f759e.js"><link rel="prefetch" href="/assets/js/84.988b022c.js"><link rel="prefetch" href="/assets/js/85.e5a4eba7.js"><link rel="prefetch" href="/assets/js/86.08d2ffe3.js"><link rel="prefetch" href="/assets/js/87.86dcc431.js"><link rel="prefetch" href="/assets/js/88.2a1d5df9.js"><link rel="prefetch" href="/assets/js/89.f494a431.js"><link rel="prefetch" href="/assets/js/9.f7aab732.js"><link rel="prefetch" href="/assets/js/90.6ccdcbdc.js"><link rel="prefetch" href="/assets/js/91.02f897fa.js"><link rel="prefetch" href="/assets/js/92.7b43d68c.js"><link rel="prefetch" href="/assets/js/93.2a10b95c.js"><link rel="prefetch" href="/assets/js/94.4bc563df.js"><link rel="prefetch" href="/assets/js/95.bd37b222.js"><link rel="prefetch" href="/assets/js/97.6a3230f0.js"><link rel="prefetch" href="/assets/js/98.d421614b.js"><link rel="prefetch" href="/assets/js/99.0eaab8bb.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.9b71556a.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">小张笔记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/索引/Search.html" class="nav-link">
+  Google站内搜索
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Select language" class="dropdown-title"><span class="title">选择语言</span> <span class="arrow down"></span></button> <button type="button" aria-label="Select language" class="mobile-dropdown-title"><span class="title">选择语言</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/en/" class="nav-link">
+  en-US
+</a></li><li class="dropdown-item"><!----> <a href="/file/211022_linux中的虚拟网络接口.html" class="nav-link">
+  简体中文
+</a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/索引/Search.html" class="nav-link">
+  Google站内搜索
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Select language" class="dropdown-title"><span class="title">选择语言</span> <span class="arrow down"></span></button> <button type="button" aria-label="Select language" class="mobile-dropdown-title"><span class="title">选择语言</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/en/" class="nav-link">
+  en-US
+</a></li><li class="dropdown-item"><!----> <a href="/file/211022_linux中的虚拟网络接口.html" class="nav-link">
+  简体中文
+</a></li></ul></div></div> <!----></nav>  <!----> <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>linux中的虚拟网络接口</span> <!----></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><p>本文用到的字符画工具：vscode-asciiflow2 注意: 本文中使用 ip 命令创建或修改的任何网络配置，都是未持久化的，主机重启即消失。 Linux 具</p> <p>本文用到的字符画工具：<a href="https://github.com/zenghongtu/vscode-asciiflow2" target="_blank" rel="noopener noreferrer">vscode-asciiflow2<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>注意: 本文中使用 <code>ip</code> 命令创建或修改的任何网络配置，都是未持久化的，主机重启即消失。</p> <p>Linux 具有强大的虚拟网络能力，这也是 openstack 网络、docker 容器网络以及 kubernetes 网络等虚拟网络的基础。</p> <p>这里介绍 Linux 常用的虚拟网络接口类型：TUN/TAP、bridge、veth、ipvlan/macvlan、vlan 以及 vxlan/geneve.</p> <p>tun/tap 是操作系统内核中的虚拟网络设备，他们为用户层程序提供数据的接收与传输。</p> <p>普通的物理网络接口如 eth0，它的两端分别是内核协议栈和外面的物理网络。</p> <p>而对于 TUN/TAP 虚拟接口如 tun0，它的一端一定是连接的用户层程序，另一端则视配置方式的不同而变化，可以直连内核协议栈，也可以是某个 bridge（后面会介绍）。 Linux 通过内核模块 TUN 提供 tun/tap 功能，该模块提供了一个设备接口 <code>/dev/net/tun</code> 供用户层程序读写，用户层程序通过 <code>/dev/net/tun</code> 读写主机内核协议栈的数据。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>&gt; modinfo tun
+filename:       /lib/modules/5.13.6-1-default/kernel/drivers/net/tun.ko.xz
+alias:          devname:net/tun
+alias:          char-major-10-200
+license:        GPL
+author:         (C) 1999-2004 Max Krasnyansky &lt;maxk@qualcomm.com&gt;
+description:    Universal TUN/TAP device driver
+...
+
+&gt; ls /dev/net/tun
+/dev/net/tun
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>一个 TUN 设备的示例图如下：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>+----------------------------------------------------------------------+
+|                                                                      |
+|  +--------------------+      +--------------------+                  |
+|  | User Application A |      | User Application B +&lt;-----+           |
+|  +------------+-------+      +-------+------------+      |           |
+|               | 1                    | 5                 |           |
+|...............+......................+...................|...........|
+|               ↓                      ↓                   |           |
+|         +----------+           +----------+              |           |
+|         | socket A |           | socket B |              |           |
+|         +-------+--+           +--+-------+              |           |
+|                 | 2               | 6                    |           |
+|.................+.................+......................|...........|
+|                 ↓                 ↓                      |           |
+|             +------------------------+          +--------+-------+   |
+|             | Network Protocol Stack |          |  /dev/net/tun  |   |
+|             +--+-------------------+-+          +--------+-------+   |
+|                | 7                 | 3                   ^           |
+|................+...................+.....................|...........|
+|                ↓                   ↓                     |           |
+|        +----------------+    +----------------+        4 |           |
+|        |      eth0      |    |      tun0      |          |           |
+|        +-------+--------+    +-----+----------+          |           |
+|    10.32.0.11  |                   |   192.168.3.11      |           |
+|                | 8                 +---------------------+           |
+|                |                                                     |
++----------------+-----------------------------------------------------+
+                 ↓
+         Physical Network
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br></div></div><p>因为 TUN/TAP 设备的一端是内核协议栈，显然流入 tun0 的数据包是先经过本地的路由规则匹配的。</p> <p>路由匹配成功，数据包被发送到 tun0 后，tun0 发现另一端是通过 <code>/dev/net/tun</code> 连接到应用程序 B，就会将数据丢给应用程序 B。</p> <p>应用程序对数据包进行处理后，可能会构造新的数据包，通过物理网卡发送出去。比如常见的 VPN 程序就是把原来的数据包封装 / 加密一遍，再发送给 VPN 服务器。</p> <p>为了使用 tun/tap 设备，用户层程序需要通过系统调用打开 <code>/dev/net/tun</code> 获得一个读写该设备的文件描述符 (FD)，并且调用 <code>ioctl()</code> 向内核注册一个 TUN 或 TAP 类型的虚拟网卡 (实例化一个 tun/tap 设备)，其名称可能是 <code>tun0/tap0</code> 等。</p> <p>此后，用户程序可以通过该 TUN/TAP 虚拟网卡与主机内核协议栈（或者其他网络设备）交互。当用户层程序关闭后，其注册的 TUN/TAP 虚拟网卡以及自动生成的路由表相关条目都会被内核释放。</p> <p>可以把用户层程序看做是网络上另一台主机，他们通过 tun/tap 虚拟网卡相连。</p> <p>一个简单的 C 程序示例如下，它每次收到数据后，都只单纯地打印一下收到的字节数：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>#include &lt;linux/if.h&gt;
+#include &lt;linux/if_tun.h&gt;
+
+#include &lt;sys/ioctl.h&gt;
+
+#include &lt;fcntl.h&gt;
+#include &lt;string.h&gt;
+
+#include &lt;unistd.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;stdio.h&gt;
+
+int tun_alloc(int flags)
+{
+
+    struct ifreq ifr;
+    int fd, err;
+    char *clonedev = &quot;/dev/net/tun&quot;;
+
+    // 打开 tun 文件，获得 fd
+    if ((fd = open(clonedev, O_RDWR)) &lt; 0) {
+        return fd;
+    }
+
+    memset(&amp;ifr, 0, sizeof(ifr));
+    ifr.ifr_flags = flags;
+
+    // 向内核注册一个 TUN 网卡，并与前面拿到的 fd 关联起来
+    // 程序关闭时，注册的 tun 网卡及自动生成的相关路由策略，会被自动释放
+    if ((err = ioctl(fd, TUNSETIFF, (void *) &amp;ifr)) &lt; 0) {
+        close(fd);
+        return err;
+    }
+
+    printf(&quot;Open tun/tap device: %s for reading...\n&quot;, ifr.ifr_name);
+
+    return fd;
+}
+
+int main()
+{
+
+    int tun_fd, nread;
+    char buffer[1500];
+
+    /* Flags: IFF_TUN   - TUN device (no Ethernet headers)
+     *        IFF_TAP   - TAP device
+     *        IFF_NO_PI - Do not provide packet information
+     */
+    tun_fd = tun_alloc(IFF_TUN | IFF_NO_PI);
+
+    if (tun_fd &lt; 0) {
+        perror(&quot;Allocating interface&quot;);
+        exit(1);
+    }
+
+    while (1) {
+        nread = read(tun_fd, buffer, sizeof(buffer));
+        if (nread &lt; 0) {
+            perror(&quot;Reading from interface&quot;);
+            close(tun_fd);
+            exit(1);
+        }
+
+        printf(&quot;Read %d bytes from tun/tap device\n&quot;, nread);
+    }
+    return 0;
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br></div></div><p>接下来开启三个终端窗口来测试上述程序，分别运行上面的 tun 程序、tcpdump 和 iproute2 指令。</p> <p>首先通过编译运行上述 c 程序，程序会阻塞住，等待数据到达：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># 编译，请忽略部分 warning
+&gt; gcc mytun.c -o mytun
+
+# 创建并监听 tun 设备需要 root 权限
+&gt; sudo mytun 
+Open tun/tap device: tun0 for reading...
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>现在使用 iproute2 查看下链路层设备：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># 能发现最后面有列出名为 tun0 的接口，但是状态为 down
+❯ ip addr ls
+......
+3: wlp4s0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether c0:3c:59:36:a4:16 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.31.228/24 brd 192.168.31.255 scope global dynamic noprefixroute wlp4s0
+       valid_lft 41010sec preferred_lft 41010sec
+    inet6 fe80::4ab0:130f:423b:5d37/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+7: tun0: &lt;POINTOPOINT,MULTICAST,NOARP&gt; mtu 1500 qdisc noop state DOWN group default qlen 500
+    link/none 
+
+# 为 tun0 设置 ip 地址，注意不要和其他接口在同一网段，会导致路由冲突
+&gt; sudo ip addr add 172.21.22.23/24 dev tun0
+# 启动 tun0 这个接口，这一步会自动向路由表中添加将 172.21.22.23/24 路由到 tun0 的策略
+&gt; sudo ip link set tun0 up
+#确认上一步添加的路由策略是否存在
+❯ ip route ls
+default via 192.168.31.1 dev wlp4s0 proto dhcp metric 600 
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown 
+172.21.22.0/24 dev tun0 proto kernel scope link src 172.21.22.23 
+192.168.31.0/24 dev wlp4s0 proto kernel scope link src 192.168.31.228 metric 600 
+
+# 此时再查看接口，发现 tun0 状态为 unknown
+&gt; ip addr ls
+......
+8: tun0: &lt;POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UNKNOWN group default qlen 500
+    link/none 
+    inet 172.21.22.23/24 scope global tun0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::3d52:49b5:1cf3:38fd/64 scope link stable-privacy 
+       valid_lft forever preferred_lft forever
+
+# 使用 tcpdump 尝试抓下 tun0 的数据，会阻塞在这里，等待数据到达
+&gt; tcpdump -i tun0
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br></div></div><p>现在再启动第三个窗口发点数据给 tun0，持续观察前面 <code>tcpdump</code> 和 <code>mytun</code> 的日志:</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># 直接 ping tun0 的地址，貌似有问题，数据没进 mytun 程序，而且还有响应
+❯ ping -c 4 172.21.22.23
+PING 172.21.22.23 (172.21.22.23) 56(84) bytes of data.
+64 bytes from 172.21.22.23: icmp_seq=1 ttl=64 time=0.167 ms
+64 bytes from 172.21.22.23: icmp_seq=2 ttl=64 time=0.180 ms
+64 bytes from 172.21.22.23: icmp_seq=3 ttl=64 time=0.126 ms
+64 bytes from 172.21.22.23: icmp_seq=4 ttl=64 time=0.141 ms
+
+--- 172.21.22.23 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3060ms
+rtt min/avg/max/mdev = 0.126/0.153/0.180/0.021 ms
+
+# 但是 ping 该网段下的其他地址，流量就会被转发给 mytun 程序，因为 mytun 啥数据也没回，自然丢包率 100%
+# tcpdump 和 mytun 都会打印出相关日志
+❯ ping -c 4 172.21.22.26
+PING 172.21.22.26 (172.21.22.26) 56(84) bytes of data.
+
+--- 172.21.22.26 ping statistics ---
+4 packets transmitted, 0 received, 100% packet loss, time 3055ms
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><p>下面给出 mytun 的输出：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>Read 84 bytes from tun/tap device
+Read 84 bytes from tun/tap device
+Read 84 bytes from tun/tap device
+Read 84 bytes from tun/tap device
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>以及 tcpdump 的输出：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>00:22:03.622684 IP (tos 0x0, ttl 64, id 37341, offset 0, flags [DF], proto ICMP (1), length 84)
+    172.21.22.23 &gt; 172.21.22.26: ICMP echo request, id 11, seq 1, length 64
+00:22:04.633394 IP (tos 0x0, ttl 64, id 37522, offset 0, flags [DF], proto ICMP (1), length 84)
+    172.21.22.23 &gt; 172.21.22.26: ICMP echo request, id 11, seq 2, length 64
+00:22:05.653356 IP (tos 0x0, ttl 64, id 37637, offset 0, flags [DF], proto ICMP (1), length 84)
+    172.21.22.23 &gt; 172.21.22.26: ICMP echo request, id 11, seq 3, length 64
+00:22:06.677341 IP (tos 0x0, ttl 64, id 37667, offset 0, flags [DF], proto ICMP (1), length 84)
+    172.21.22.23 &gt; 172.21.22.26: ICMP echo request, id 11, seq 4, length 64
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>更复杂的 tun 程序，可以参考</p> <ul><li><a href="https://github.com/gregnietsky/simpletun" target="_blank" rel="noopener noreferrer">simpletun<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li><a href="https://github.com/marywangran/simpletun" target="_blank" rel="noopener noreferrer">marywangran/simpletun<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li><a href="https://github.com/marywangran/gotun-tunnel/blob/main/tun/tun.go" target="_blank" rel="noopener noreferrer">tun go 语言版<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul> <p>TUN 和 TAP 的区别在于工作的网络层次不同，用户程序通过 TUN 设备只能读写网络层的 IP 数据包，而 TAP 设备则支持读写链路层的数据包（通常是以太网数据包，带有 Ethernet headers）。</p> <p>TUN 与 TAP 的关系，就类似于 socket 和 raw socket.</p> <p>TUN/TAP 应用最多的场景是 VPN 代理，比如:</p> <ol><li><a href="https://github.com/ryan4yin/clash" target="_blank" rel="noopener noreferrer">clash<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>: 一个支持各种规则的隧道，也支持 TUN 模式</li> <li><a href="https://github.com/xjasonlyu/tun2socks/wiki" target="_blank" rel="noopener noreferrer">tun2socks<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>: 一个全局透明代理，和 VPN 的工作模式一样，它通过创建虚拟网卡 + 修改路由表，在第三层网络层代理系统流量。</li></ol> <p>veth 接口总是成对出现，一对 veth 接口就类似一根网线，从一端进来的数据会从另一端出去。</p> <p>同时 veth 又是一个虚拟网络接口，因此它和 TUN/TAP 或者其他物理网络接口一样，也都能配置 mac/ip 地址（但是并不是一定得配 mac/ip 地址）。</p> <p>其主要作用就是连接不同的网络，比如在容器网络中，用于将容器的 namespace 与 root namespace 的网桥 br0 相连。 容器网络中，容器侧的 veth 自身设置了 ip/mac 地址并被重命名为 eth0，作为容器的网络接口使用，而主机侧的 veth 则直接连接在 docker0/br0 上面。</p> <p>使用 veth 实现容器网络，需要结合下一小节介绍的 bridge，在下一小节将给出容器网络结构图。</p> <p>Linux Bridge 是工作在链路层的网络交换机，由 Linux 内核模块 <code>brige</code> 提供，它负责在所有连接到它的接口之间转发链路层数据包。</p> <p>添加到 Bridge 上的设备被设置为只接受二层数据帧并且转发所有收到的数据包到 Bridge 中。 在 Bridge 中会进行一个类似物理交换机的查 MAC 端口映射表、转发、更新 MAC 端口映射表这样的处理逻辑，从而数据包可以被转发到另一个接口 / 丢弃 / 广播 / 发往上层协议栈，由此 Bridge 实现了数据转发的功能。</p> <p>如果使用 tcpdump 在 Bridge 接口上抓包，可以抓到网桥上所有接口进出的包，因为这些数据包都要通过网桥进行转发。</p> <p>与物理交换机不同的是，Bridge 本身可以设置 IP 地址，可以认为当使用 <code>brctl addbr br0</code> 新建一个 br0 网桥时，系统自动创建了一个同名的隐藏 <code>br0</code> 网络接口。<code>br0</code> 一旦设置 IP 地址，就意味着这个隐藏的 br0 接口可以作为路由接口设备，参与 IP 层的路由选择 (可以使用 <code>route -n</code> 查看最后一列 <code>Iface</code>)。因此只有当 <code>br0</code> 设置 <code>IP</code> 地址时，Bridge 才有可能将数据包发往上层协议栈。</p> <p>但被添加到 Bridge 上的网卡是不能配置 IP 地址的，他们工作在数据链路层，对路由系统不可见。</p> <p>它常被用于在虚拟机、主机上不同的 namepsaces 之间转发数据。</p> <p>以 qemu-kvm 为例，在虚拟机的桥接模式下，qemu-kvm 会为每个虚拟机创建一个 tun/tap 虚拟网卡并连接到 br0 网桥。 虚拟机内部的网络接口 <code>eth0</code> 是 qemu-kvm 软件模拟的，实际上虚拟机内网络数据的收发都会被 qemu-kvm 转换成对 <code>/dev/net/tun</code> 的读写。</p> <p>以发送数据为例，整个流程如下：</p> <ul><li>虚拟机发出去的数据包先到达 qemu-kvm 程序</li> <li>数据被用户层程序 qemu-kvm 写入到 <code>/dev/net/tun</code>，到达 tap 设备</li> <li>tap 设备把数据传送到 br0 网桥</li> <li>br0 把数据交给 eth0 发送出去</li></ul> <p>整个流程跑完，数据包都不需要经过宿主机的协议栈，效率高。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>+------------------------------------------------+-----------------------------------+-----------------------------------+
+|                       Host                     |           VirtualMachine1         |           VirtualMachine2         |
+|                                                |                                   |                                   |
+|    +--------------------------------------+    |    +-------------------------+    |    +-------------------------+    |
+|    |         Network Protocol Stack       |    |    |  Network Protocol Stack |    |    |  Network Protocol Stack |    |
+|    +--------------------------------------+    |    +-------------------------+    |    +-------------------------+    |
+|                       ↑                        |                ↑                  |                 ↑                 |
+|.......................|........................|................|..................|.................|.................|
+|                       ↓                        |                ↓                  |                 ↓                 |
+|                  +--------+                    |            +-------+              |             +-------+             |
+|                  | .3.101 |                    |            | .3.102|              |             | .3.103|             |
+|     +------+     +--------+     +-------+      |            +-------+              |             +-------+             |
+|     | eth0 |&lt;---&gt;|   br0  |&lt;---&gt;|tun/tap|      |            | eth0  |              |             | eth0  |             |
+|     +------+     +--------+     +-------+      |            +-------+              |             +-------+             |
+|         ↑             ↑             ↑      +--------+           ↑                  |                 ↑                 |
+|         |             |             +------|qemu-kvm|-----------+                  |                 |                 |
+|         |             ↓                    +--------+                              |                 |                 |
+|         |         +-------+                    |                                   |                 |                 |
+|         |         |tun/tap|                    |                                   |                 |                 |
+|         |         +-------+                    |                                   |                 |                 |
+|         |             ↑                        |            +--------+             |                 |                 |
+|         |             +-------------------------------------|qemu-kvm|-------------|-----------------+                 |
+|         |                                      |            +--------+             |                                   |
+|         |                                      |                                   |                                   |
++---------|--------------------------------------+-----------------------------------+-----------------------------------+
+          ↓
+    Physical Network  (192.168.3.0/24)
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br></div></div><p>docker/podman 提供的 bridge 网络模式，就是使用 veth+bridge+iptalbes 实现的。我会在下一篇文章详细介绍「容器网络」。</p> <p>由于容器运行在自己单独的 network namespace 里面，所以和虚拟机一样，它们也都有自己单独的协议栈。</p> <p>容器网络的结构和虚拟机差不多，但是它改用了 NAT 网络，并把 tun/tap 换成了 veth，导致 docker0 过来的数据，要先经过宿主机协议栈，然后才进入 veth 接口。</p> <p>多了一层 NAT，以及多走了一层宿主机协议栈，都会导致性能下降。</p> <p>示意图如下：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>+-----------------------------------------------+-----------------------------------+-----------------------------------+
+|                      Host                     |           Container 1             |           Container 2             |
+|                                               |                                   |                                   |
+|   +---------------------------------------+   |    +-------------------------+    |    +-------------------------+    |
+|   |       Network Protocol Stack          |   |    |  Network Protocol Stack |    |    |  Network Protocol Stack |    |
+|   +----+-------------+--------------------+   |    +-----------+-------------+    |    +------------+------------+    |
+|        ^             ^                        |                ^                  |                 ^                 |
+|........|.............|........................|................|..................|.................|.................|
+|        v             v  ↓                     |                v                  |                 v                 |
+|   +----+----+  +-----+------+                 |          +-----+-------+          |           +-----+-------+         |
+|   | .31.101 |  | 172.17.0.1 |      +------+   |          | 172.17.0.2  |          |           |  172.17.0.3 |         |
+|   +---------+  +-------------&lt;----&gt;+ veth |   |          +-------------+          |           +-------------+         |
+|   |  eth0   |  |   docker0  |      +--+---+   |          | eth0(veth)  |          |           | eth0(veth)  |         |
+|   +----+----+  +-----+------+         ^       |          +-----+-------+          |           +-----+-------+         |
+|        ^             ^                |       |                ^                  |                 ^                 |
+|        |             |                +------------------------+                  |                 |                 |
+|        |             v                        |                                   |                 |                 |
+|        |          +--+---+                    |                                   |                 |                 |
+|        |          | veth |                    |                                   |                 |                 |
+|        |          +--+---+                    |                                   |                 |                 |
+|        |             ^                        |                                   |                 |                 |
+|        |             +------------------------------------------------------------------------------+                 |
+|        |                                      |                                   |                                   |
+|        |                                      |                                   |                                   |
++-----------------------------------------------+-----------------------------------+-----------------------------------+
+         v
+    Physical Network  (192.168.31.0/24)
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br></div></div><p>每创建一个新容器，都会在容器的 namespace 里新建一个 veth 接口并命令为 eth0，同时在主 namespace 创建一个 veth，将容器的 eth0 与 docker0 连接。</p> <p>可以在容器中通过 iproute2 查看到， eth0 的接口类型为 <code>veth</code>：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>❯ docker run -it --rm debian:buster bash
+root@5facbe4ddc1e:/# ip --details addr ls
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 promiscuity 0 minmtu 0 maxmtu 0 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+20: eth0@if21: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0 promiscuity 0 minmtu 68 maxmtu 65535 
+    veth numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 
+    inet 172.17.0.2/16 brd 172.17.255.255 scope global eth0
+       valid_lft forever preferred_lft forever
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>同时在宿主机中能看到对应的 veth 设备是绑定到了 docker0 网桥的：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>❯ sudo brctl show
+bridge name     bridge id               STP enabled     interfaces
+docker0         8000.0242fce99ef5       no              vethea4171a
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>目前 docker/podman 都支持创建基于 macvlan 的 Linux 容器网络。</p> <p>注意 macvlan 和 WiFi 存在兼容问题，如果使用笔记本测试，可能会遇到麻烦。</p> <p>参考文档：<a href="https://cizixs.com/2017/02/14/network-virtualization-macvlan/" target="_blank" rel="noopener noreferrer">linux 网络虚拟化： macvlan<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>macvlan 是比较新的 Linux 特性，需要内核版本 &gt;= 3.9，它被用于在主机的网络接口（父接口）上配置多个虚拟子接口，这些子接口都拥有各自独立的 mac 地址，也可以配上 ip 地址进行通讯。</p> <p>macvlan 下的虚拟机或者容器网络和主机在同一个网段中，共享同一个广播域。macvlan 和 bridge 比较相似，但因为它省去了 bridge 的存在，所以配置和调试起来比较简单，而且效率也相对高。除此之外，macvlan 自身也完美支持 VLAN。</p> <p>如果希望容器或者虚拟机放在主机相同的网络中，享受已经存在网络栈的各种优势，可以考虑 macvlan。</p> <p>我会在下一篇文章对 docker 的 macvlan/ipvlan 做个分析，这里先略过了…</p> <p><a href="https://cizixs.com/2017/02/17/network-virtualization-ipvlan/" target="_blank" rel="noopener noreferrer">linux 网络虚拟化： ipvlan<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>cilium 1.9 已经提供了基于 ipvlan 的网络（beta 特性），用于替换传统的 veth+bridge 容器网络。详见 <a href="https://docs.cilium.io/en/v1.9/gettingstarted/ipvlan/" target="_blank" rel="noopener noreferrer">IPVLAN based Networking (beta) - Cilium 1.9 Docs<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>ipvlan 和 macvlan 的功能很类似，也是用于在主机的网络接口（父接口）上配置出多个虚拟的子接口。但不同的是，ipvlan 的各子接口没有独立的 mac 地址，它们和主机的父接口共享 mac 地址。</p> <p>因为 mac 地址共享，所以如果使用 DHCP，就要注意不能使用 mac 地址做 DHCP，需要额外配置唯一的 clientID.</p> <p>如果你遇到以下的情况，请考虑使用 ipvlan：</p> <ul><li>父接口对 mac 地址数目有限制，或者在 mac 地址过多的情况下会造成严重的性能损失</li> <li>工作在 802.11(wireless) 无线网络中（macvlan 无法和无线网络共同工作）</li> <li>希望搭建比较复杂的网络拓扑（不是简单的二层网络和 VLAN），比如要和 BGP 网络一起工作</li></ul> <p>基于 ipvlan/macvlan 的容器网络，比 veth+bridge+iptables 的性能要更高。</p> <p>我会在下一篇文章对 docker 的 macvlan/ipvlan 做个分析，这里先略过了…</p> <p>vlan 即虚拟局域网，是一个链路层的广播域隔离技术，可以用于切分局域网，解决广播泛滥和安全性问题。被隔离的广播域之间需要上升到第三层才能完成通讯。</p> <p>常用的企业路由器如 ER-X 基本都可以设置 vlan，Linux 也直接支持了 vlan.</p> <p>以太网数据包有一个专门的字段提供给 vlan 使用，vlan 数据包会在该位置记录它的 VLAN ID，交换机通过该 ID 来区分不同的 VLAN，只将该以太网报文广播到该 ID 对应的 VLAN 中。</p> <p><a href="https://datatracker.ietf.org/doc/html/rfc8926" target="_blank" rel="noopener noreferrer">rfc8926 - Geneve: Generic Network Virtualization Encapsulation<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> <a href="https://datatracker.ietf.org/doc/html/rfc7348" target="_blank" rel="noopener noreferrer">rfc7348 - Virtual eXtensible Local Area Network (VXLAN)<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p><a href="https://cizixs.com/2017/09/28/linux-vxlan/" target="_blank" rel="noopener noreferrer">linux 上实现 vxlan 网络<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>在介绍 vxlan 前，先说明下两个名词的含义：</p> <ul><li><strong>underlay 网络</strong>：即物理网络</li> <li><strong>overlay 网络</strong>：指在现有的物理网络之上构建的虚拟网络。其实就是一种隧道技术，将原生态的二层数据帧报文进行封装后通过隧道进行传输。</li></ul> <p>vxlan 与 geneve 都是 overlay 网络协议，它俩都是使用 UDP 包来封装链路层的以太网帧。</p> <p>vxlan 在 2014 年标准化，而 geneve 在 2020 年底才通过草案阶段，目前尚未形成最终标准。但是目前 linux/cilium 都已经支持了 geneve.</p> <p>geneve 相对 vxlan 最大的变化，是它更灵活——它的 header 长度是可变的。</p> <p>目前所有 overlay 的跨主机容器网络方案，几乎都是基于 vxlan 实现的（例外：cilium 也支持 geneve）。</p> <p>我们在学习单机的容器网络时，不需要接触到 vxlan，但是在学习跨主机容器网络方案如 flannel/calico/cilium 时，那 vxlan(overlay) 及 BGP(underlay) 就不可避免地要接触了。</p> <p>先介绍下 vxlan 的数据包结构：</p> <p><a href="https://ryan4yin.space/images/linux-virtual-interfaces/vxlan-frame.png" target="_blank" rel="noopener noreferrer"><img src="https://ryan4yin.space/images/linux-virtual-interfaces/vxlan-frame.png" alt="img"><span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>VXLAN 栈帧结构</p> <p>在创建 vxlan 的 vtep 虚拟设备时，我们需要手动设置图中的如下属性：</p> <ul><li>VXLAN 目标端口：即接收方 vtep 使用的端口，这里 IANA 定义的端口是 4789，但是只有 calico 的 vxlan 模式默认使用该端口 calico，而 cilium/flannel 的默认端口都是 Linux 默认的 8472.</li> <li>VNID: 每个 VXLAN 网络接口都会被分配一个独立的 VNID</li></ul> <p>一个点对点的 vxlan 网络架构图如下:</p> <p><a href="https://ryan4yin.space/images/linux-virtual-interfaces/vxlan-architecture.gif" target="_blank" rel="noopener noreferrer"><img src="https://ryan4yin.space/images/linux-virtual-interfaces/vxlan-architecture.gif" alt="img"><span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>VXLAN 点对点网络架构</p> <p>可以看到每台虚拟机 VM 都会被分配一个唯一的 VNID，然后两台物理机之间通过 VTEP 虚拟网络设备建立了 VXLAN 隧道，所有 VXLAN 网络中的虚拟机，都通过 VTEP 来互相通信。</p> <p>有了上面这些知识，我们就可以通过如下命令在两台 Linux 机器间建立一个<strong>点对点的 VXLAN 隧道</strong>：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># 在主机 A 上创建 VTEP 设备 vxlan0
+# 与另一个 vtep 接口 B（192.168.8.101）建立隧道
+# 将 vxlan0 自身的 IP 地址设为 192.168.8.100
+# 使用的 VXLAN 目标端口为 4789(IANA 标准)
+ip link add vxlan0 type vxlan \
+    id 42 \
+    dstport 4789 \
+    remote 192.168.8.101 \
+    local 192.168.8.100 \
+    dev enp0s8
+# 为我们的 VXLAN 网络设置虚拟网段，vxlan0 就是默认网关
+ip addr add 10.20.1.2/24 dev vxlan0
+# 启用我们的 vxlan0 设备，这会自动生成路由规则
+ip link set vxlan0 up
+
+# 现在在主机 B 上运行如下命令，同样创建一个 VTEP 设备 vxlan0，remote 和 local 的 ip 与前面用的命令刚好相反。
+# 注意 VNID 和 dstport 必须和前面完全一致
+ip link add vxlan0 type vxlan \
+    id 42 \
+    dstport 4789 \
+    remote 192.168.8.100 \
+    local 192.168.8.101 \
+    dev enp0s8
+# 为我们的 VXLAN 网络设置虚拟网段，vxlan0 就是默认网关
+ip addr add 10.20.1.3/24 dev vxlan0
+ip link set vxlan0 up
+
+# 到这里，两台机器就完成连接，可以通信了。可以在主机 B 上 ping 10.20.1.2 试试，应该能收到主机 A 的回应。
+ping 10.20.1.2
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br></div></div><p>点对点的 vxlan 隧道实际用处不大，如果集群中的每个节点都互相建 vxlan 隧道，代价太高了。</p> <p>一种更好的方式，是使用 <strong>「组播模式」的 vxlan 隧道</strong>，这种模式下一个 vtep 可以一次与组内的所有 vtep 建立隧道。 示例命令如下（这里略过了如何设置组播地址 <code>239.1.1.1</code> 的信息）：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>ip link add vxlan0 type vxlan \
+    id 42 \
+    dstport 4789 \
+    group 239.1.1.1 \
+    dev enp0s8 
+ip addr add 10.20.1.2/24 dev vxlan0
+ip link set vxlan0 up
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>可以看到，只需要简单地把 local_ip/remote_ip 替换成一个组播地址就行。组播功能会将收到的数据包发送给组里的所有 vtep 接口，但是只有 VNID 能对上的 vtep 会处理该报文，其他 vtep 会直接丢弃数据。</p> <p>接下来，为了能让所有的虚拟机 / 容器，都通过 vtep 通信，我们再添加一个 bridge 网络，充当 vtep 与容器间的交换机。架构如下：</p> <p><a href="https://ryan4yin.space/images/linux-virtual-interfaces/linux-vxlan-with-bridge.jpg" target="_blank" rel="noopener noreferrer"><img src="https://ryan4yin.space/images/linux-virtual-interfaces/linux-vxlan-with-bridge.jpg" alt="img"><span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>VXLAN 多播网络架构</p> <p>使用 ip 命令创建网桥、网络名字空间、veth pairs 组成上图中的容器网络：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># 创建 br0 并将 vxlan0 绑定上去
+ip link add br0 type bridge
+ip link set vxlan0 master bridge
+ip link set vxlan0 up
+ip link set br0 up
+
+# 模拟将容器加入到网桥中的操作
+ip netns add container1
+
+## 创建 veth pair，并把一端加到网桥上
+ip link add veth0 type veth peer name veth1
+ip link set dev veth0 master br0
+ip link set dev veth0 up
+
+## 配置容器内部的网络和 IP
+ip link set dev veth1 netns container1
+ip netns exec container1 ip link set lo up
+
+ip netns exec container1 ip link set veth1 name eth0
+ip netns exec container1 ip addr add 10.20.1.11/24 dev eth0
+ip netns exec container1 ip link set eth0 up
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><p>然后在另一台机器上做同样的操作，并创建新容器，两个容器就能通过 vxlan 通信啦~</p> <p>组播最大的问题在于，因为它不知道数据的目的地，所以每个 vtep 都发了一份。如果每次发数据时，如果能够精确到对应的 vtep，就能节约大量资源。</p> <p>另一个问题是 ARP 查询也会被组播，要知道 vxlan 本身就是个 overlay 网络，ARP 的成本也很高。</p> <p>上述问题都可以通过一个中心化的注册中心（如 etcd）来解决，所有容器、网络的注册与变更，都写入到这个注册中心，然后由程序自动维护 vtep 之间的隧道、fdb 表及 ARP 表.</p> <p>Loopback 和本章讲到的其他虚拟网络接口一样，都是一种软件模拟的网络设备。 他们的速率是不是也像物理链路一样，存在链路层（比如以太网）的带宽限制呢？</p> <p>比如目前很多老旧的网络设备，都是只支持到百兆以太网，这就决定了它的带宽上限。 即使是较新的设备，目前基本也都只支持到千兆，也就是 1GbE 以太网标准，那本文提到的虚拟网络接口单纯在本机内部通信，是否也存在这样的制约呢？是否也只能跑到 1GbE?</p> <p>使用 ethtool 检查：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># docker 容器的 veth 接口速率
+&gt; ethtool vethe899841 | grep Speed
+        Speed: 10000Mb/s
+
+# 网桥看起来没有固定的速率
+&gt; ethtool docker0 | grep Speed
+        Speed: Unknown!
+
+# tun0 设备的默认速率貌似是 10Mb/s ?
+&gt; ethtool tun0 | grep Speed
+        Speed: 10Mb/s
+
+# 此外 ethtool 无法检查 lo 以及 wifi 的速率
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>接下来实际测试一下，先给出机器参数：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>❯ cat /etc/os-release 
+NAME=&quot;openSUSE Tumbleweed&quot;
+# VERSION=&quot;20210810&quot;
+...
+
+❯ uname -a
+Linux legion-book 5.13.8-1-default #1 SMP Thu Aug 5 08:56:22 UTC 2021 (967c6a8) x86_64 x86_64 x86_64 GNU/Linux
+
+
+❯ lscpu
+Architecture:                    x86_64
+CPU(s):                          16
+Model name:                      AMD Ryzen 7 5800H with Radeon Graphics
+...
+
+# 内存，单位 MB
+❯ free -m
+               total        used        free      shared  buff/cache   available
+Mem:           27929        4482       17324         249        6122       22797
+Swap:           2048           0        2048
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><p>使用 iperf3 测试：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># 启动服务端
+iperf3 -s
+
+-------------
+# 新窗口启动客户端，通过 loopback 接口访问 iperf3-server，大概 49Gb/s
+❯ iperf3 -c 127.0.0.1
+Connecting to host 127.0.0.1, port 5201
+[  5] local 127.0.0.1 port 48656 connected to 127.0.0.1 port 5201
+[ ID] Interval           Transfer     Bitrate         Retr  Cwnd
+[  5]   0.00-1.00   sec  4.46 GBytes  38.3 Gbits/sec    0   1.62 MBytes       
+[  5]   1.00-2.00   sec  4.61 GBytes  39.6 Gbits/sec    0   1.62 MBytes       
+[  5]   2.00-3.00   sec  5.69 GBytes  48.9 Gbits/sec    0   1.62 MBytes       
+[  5]   3.00-4.00   sec  6.11 GBytes  52.5 Gbits/sec    0   1.62 MBytes       
+[  5]   4.00-5.00   sec  6.04 GBytes  51.9 Gbits/sec    0   1.62 MBytes       
+[  5]   5.00-6.00   sec  6.05 GBytes  52.0 Gbits/sec    0   1.62 MBytes       
+[  5]   6.00-7.00   sec  6.01 GBytes  51.6 Gbits/sec    0   1.62 MBytes       
+[  5]   7.00-8.00   sec  6.05 GBytes  52.0 Gbits/sec    0   1.62 MBytes       
+[  5]   8.00-9.00   sec  6.34 GBytes  54.5 Gbits/sec    0   1.62 MBytes       
+[  5]   9.00-10.00  sec  5.91 GBytes  50.8 Gbits/sec    0   1.62 MBytes       
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Retr
+[  5]   0.00-10.00  sec  57.3 GBytes  49.2 Gbits/sec    0             sender
+[  5]   0.00-10.00  sec  57.3 GBytes  49.2 Gbits/sec                  receiver
+
+# 客户端通过 wlp4s0 wifi 网卡(192.168.31.228)访问 iperf3-server，实际还是走的本机，但是速度要比 loopback 快一点，可能是默认设置的问题
+❯ iperf3 -c 192.168.31.228
+Connecting to host 192.168.31.228, port 5201
+[  5] local 192.168.31.228 port 43430 connected to 192.168.31.228 port 5201
+[ ID] Interval           Transfer     Bitrate         Retr  Cwnd
+[  5]   0.00-1.00   sec  5.12 GBytes  43.9 Gbits/sec    0   1.25 MBytes       
+[  5]   1.00-2.00   sec  5.29 GBytes  45.5 Gbits/sec    0   1.25 MBytes       
+[  5]   2.00-3.00   sec  5.92 GBytes  50.9 Gbits/sec    0   1.25 MBytes       
+[  5]   3.00-4.00   sec  6.00 GBytes  51.5 Gbits/sec    0   1.25 MBytes       
+[  5]   4.00-5.00   sec  5.98 GBytes  51.4 Gbits/sec    0   1.25 MBytes       
+[  5]   5.00-6.00   sec  6.05 GBytes  52.0 Gbits/sec    0   1.25 MBytes       
+[  5]   6.00-7.00   sec  6.16 GBytes  52.9 Gbits/sec    0   1.25 MBytes       
+[  5]   7.00-8.00   sec  6.08 GBytes  52.2 Gbits/sec    0   1.25 MBytes       
+[  5]   8.00-9.00   sec  6.00 GBytes  51.6 Gbits/sec    0   1.25 MBytes       
+[  5]   9.00-10.00  sec  6.01 GBytes  51.6 Gbits/sec    0   1.25 MBytes       
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Retr
+[  5]   0.00-10.00  sec  58.6 GBytes  50.3 Gbits/sec    0             sender
+[  5]   0.00-10.00  sec  58.6 GBytes  50.3 Gbits/sec                  receiver
+
+# 从容器中访问宿主机的 iperf3-server，速度几乎没区别
+❯ docker run  -it --rm --name=iperf3-server networkstatic/iperf3 -c 192.168.31.228
+Connecting to host 192.168.31.228, port 5201
+[  5] local 172.17.0.2 port 43436 connected to 192.168.31.228 port 5201
+[ ID] Interval           Transfer     Bitrate         Retr  Cwnd
+[  5]   0.00-1.00   sec  4.49 GBytes  38.5 Gbits/sec    0    403 KBytes       
+[  5]   1.00-2.00   sec  5.31 GBytes  45.6 Gbits/sec    0    544 KBytes       
+[  5]   2.00-3.00   sec  6.14 GBytes  52.8 Gbits/sec    0    544 KBytes       
+[  5]   3.00-4.00   sec  5.85 GBytes  50.3 Gbits/sec    0    544 KBytes       
+[  5]   4.00-5.00   sec  6.14 GBytes  52.7 Gbits/sec    0    544 KBytes       
+[  5]   5.00-6.00   sec  5.99 GBytes  51.5 Gbits/sec    0    544 KBytes       
+[  5]   6.00-7.00   sec  5.86 GBytes  50.4 Gbits/sec    0    544 KBytes       
+[  5]   7.00-8.00   sec  6.05 GBytes  52.0 Gbits/sec    0    544 KBytes       
+[  5]   8.00-9.00   sec  5.99 GBytes  51.5 Gbits/sec    0    544 KBytes       
+[  5]   9.00-10.00  sec  6.12 GBytes  52.5 Gbits/sec    0    544 KBytes       
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Retr
+[  5]   0.00-10.00  sec  58.0 GBytes  49.8 Gbits/sec    0             sender
+[  5]   0.00-10.00  sec  58.0 GBytes  49.8 Gbits/sec                  receiver
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br></div></div><p>把 iperf3-server 跑在容器里再测一遍：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code># 在容器中启动 iperf3-server，并映射到宿主机端口 6201
+&gt; docker run  -it --rm --name=iperf3-server -p 6201:5201 networkstatic/iperf3 -s
+&gt; docker inspect --format &quot;{{ .NetworkSettings.IPAddress }}&quot; iperf3-server
+172.17.0.2
+-----------------------------
+# 测试容器之间互访的速度，ip 为 iperf3-server 的容器 ip，速度要慢一些。
+# 毕竟过了 veth -&gt; veth -&gt; docker0 -&gt; veth -&gt; veth 五层虚拟网络接口
+❯ docker run  -it --rm networkstatic/iperf3 -c 172.17.0.2
+Connecting to host 172.17.0.2, port 5201
+[  5] local 172.17.0.3 port 40776 connected to 172.17.0.2 port 5201
+[ ID] Interval           Transfer     Bitrate         Retr  Cwnd
+[  5]   0.00-1.00   sec  4.74 GBytes  40.7 Gbits/sec    0    600 KBytes       
+[  5]   1.00-2.00   sec  4.48 GBytes  38.5 Gbits/sec    0    600 KBytes       
+[  5]   2.00-3.00   sec  5.38 GBytes  46.2 Gbits/sec    0    600 KBytes       
+[  5]   3.00-4.00   sec  5.39 GBytes  46.3 Gbits/sec    0    600 KBytes       
+[  5]   4.00-5.00   sec  5.42 GBytes  46.6 Gbits/sec    0    600 KBytes       
+[  5]   5.00-6.00   sec  5.39 GBytes  46.3 Gbits/sec    0    600 KBytes       
+[  5]   6.00-7.00   sec  5.38 GBytes  46.2 Gbits/sec    0    635 KBytes       
+[  5]   7.00-8.00   sec  5.37 GBytes  46.1 Gbits/sec    0    667 KBytes       
+[  5]   8.00-9.00   sec  6.01 GBytes  51.7 Gbits/sec    0    735 KBytes       
+[  5]   9.00-10.00  sec  5.74 GBytes  49.3 Gbits/sec    0    735 KBytes       
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Retr
+[  5]   0.00-10.00  sec  53.3 GBytes  45.8 Gbits/sec    0             sender
+[  5]   0.00-10.00  sec  53.3 GBytes  45.8 Gbits/sec                  receiver
+
+# 本机直接访问容器 ip，走的是 docker0 网桥，居然还挺快
+❯ iperf3 -c 172.17.0.2
+Connecting to host 172.17.0.2, port 5201
+[  5] local 172.17.0.1 port 56486 connected to 172.17.0.2 port 5201
+[ ID] Interval           Transfer     Bitrate         Retr  Cwnd
+[  5]   0.00-1.00   sec  5.01 GBytes  43.0 Gbits/sec    0    632 KBytes       
+[  5]   1.00-2.00   sec  5.19 GBytes  44.6 Gbits/sec    0    703 KBytes       
+[  5]   2.00-3.00   sec  6.46 GBytes  55.5 Gbits/sec    0    789 KBytes       
+[  5]   3.00-4.00   sec  6.80 GBytes  58.4 Gbits/sec    0    789 KBytes       
+[  5]   4.00-5.00   sec  6.82 GBytes  58.6 Gbits/sec    0    913 KBytes       
+[  5]   5.00-6.00   sec  6.79 GBytes  58.3 Gbits/sec    0   1007 KBytes       
+[  5]   6.00-7.00   sec  6.63 GBytes  56.9 Gbits/sec    0   1.04 MBytes       
+[  5]   7.00-8.00   sec  6.75 GBytes  58.0 Gbits/sec    0   1.04 MBytes       
+[  5]   8.00-9.00   sec  6.19 GBytes  53.2 Gbits/sec    0   1.04 MBytes       
+[  5]   9.00-10.00  sec  6.55 GBytes  56.3 Gbits/sec    0   1.04 MBytes       
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Retr
+[  5]   0.00-10.00  sec  63.2 GBytes  54.3 Gbits/sec    0             sender
+[  5]   0.00-10.00  sec  63.2 GBytes  54.3 Gbits/sec                  receiver
+
+# 如果走本机 loopback 地址 + 容器端口映射，速度就慢了好多
+# 或许是因为用 iptables 做端口映射导致的？
+❯ iperf3 -c 127.0.0.1 -p 6201
+Connecting to host 127.0.0.1, port 6201
+[  5] local 127.0.0.1 port 48862 connected to 127.0.0.1 port 6201
+[ ID] Interval           Transfer     Bitrate         Retr  Cwnd
+[  5]   0.00-1.00   sec  2.71 GBytes  23.3 Gbits/sec    0   1.37 MBytes       
+[  5]   1.00-2.00   sec  3.64 GBytes  31.3 Gbits/sec    0   1.37 MBytes       
+[  5]   2.00-3.00   sec  4.08 GBytes  35.0 Gbits/sec    0   1.37 MBytes       
+[  5]   3.00-4.00   sec  3.49 GBytes  30.0 Gbits/sec    0   1.37 MBytes       
+[  5]   4.00-5.00   sec  5.50 GBytes  47.2 Gbits/sec    2   1.37 MBytes       
+[  5]   5.00-6.00   sec  4.06 GBytes  34.9 Gbits/sec    0   1.37 MBytes       
+[  5]   6.00-7.00   sec  4.12 GBytes  35.4 Gbits/sec    0   1.37 MBytes       
+[  5]   7.00-8.00   sec  3.99 GBytes  34.3 Gbits/sec    0   1.37 MBytes       
+[  5]   8.00-9.00   sec  3.49 GBytes  30.0 Gbits/sec    0   1.37 MBytes       
+[  5]   9.00-10.00  sec  5.51 GBytes  47.3 Gbits/sec    0   1.37 MBytes       
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Retr
+[  5]   0.00-10.00  sec  40.6 GBytes  34.9 Gbits/sec    2             sender
+[  5]   0.00-10.00  sec  40.6 GBytes  34.9 Gbits/sec                  receiver
+
+# 可走 wlp4s0 + 容器端口映射，速度也不慢啊
+❯ iperf3 -c 192.168.31.228 -p 6201
+Connecting to host 192.168.31.228, port 6201
+[  5] local 192.168.31.228 port 54582 connected to 192.168.31.228 port 6201
+[ ID] Interval           Transfer     Bitrate         Retr  Cwnd
+[  5]   0.00-1.00   sec  4.34 GBytes  37.3 Gbits/sec    0    795 KBytes       
+[  5]   1.00-2.00   sec  4.78 GBytes  41.0 Gbits/sec    0    834 KBytes       
+[  5]   2.00-3.00   sec  6.26 GBytes  53.7 Gbits/sec    0    834 KBytes       
+[  5]   3.00-4.00   sec  6.30 GBytes  54.1 Gbits/sec    0    875 KBytes       
+[  5]   4.00-5.00   sec  6.26 GBytes  53.8 Gbits/sec    0    875 KBytes       
+[  5]   5.00-6.00   sec  5.75 GBytes  49.4 Gbits/sec    0    875 KBytes       
+[  5]   6.00-7.00   sec  5.49 GBytes  47.2 Gbits/sec    0    966 KBytes       
+[  5]   7.00-8.00   sec  5.72 GBytes  49.1 Gbits/sec    2    966 KBytes       
+[  5]   8.00-9.00   sec  4.81 GBytes  41.3 Gbits/sec    2    966 KBytes       
+[  5]   9.00-10.00  sec  5.98 GBytes  51.4 Gbits/sec    0    966 KBytes       
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Retr
+[  5]   0.00-10.00  sec  55.7 GBytes  47.8 Gbits/sec    4             sender
+[  5]   0.00-10.00  sec  55.7 GBytes  47.8 Gbits/sec                  receiver
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br></div></div><p>总的来看，loopback、bridge、veth 这几个接口基本上是没被限速的，veth 有查到上限为 10000Mb/s（10Gb/s） 感觉也是个假数字， 实际上测出来的数据基本在 35Gb/s 到 55Gb/s 之间，视情况浮动。</p> <p>性能的变化和虚拟网络设备的链路和类型有关，或许和默认配置的区别也有关系。</p> <p>另外 TUN 设备这里没有测，<code>ethtool tun0</code> 查到的值是比较离谱的 10Mb/s，但是感觉不太可能这么慢，有时间可以再测一波看看。</p> <ul><li><a href="https://segmentfault.com/a/1190000009249039" target="_blank" rel="noopener noreferrer">Linux 虚拟网络设备之 tun/tap<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li><a href="https://segmentfault.com/a/1190000009251098" target="_blank" rel="noopener noreferrer">Linux 虚拟网络设备之 veth<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li><a href="https://opengers.github.io/openstack/openstack-base-virtual-network-devices-bridge-and-vlan/" target="_blank" rel="noopener noreferrer">云计算底层技术 - 虚拟网络设备 (Bridge,VLAN)<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li><a href="https://opengers.github.io/openstack/openstack-base-virtual-network-devices-tuntap-veth/" target="_blank" rel="noopener noreferrer">云计算底层技术 - 虚拟网络设备 (tun/tap,veth)<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li><a href="https://www.kernel.org/doc/Documentation/networking/tuntap.txt" target="_blank" rel="noopener noreferrer">Universal TUN/TAP device driver - Kernel Docs<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li><a href="https://backreference.org/2010/03/26/tuntap-interface-tutorial/" target="_blank" rel="noopener noreferrer">Tun/Tap interface tutorial<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li><a href="https://stackoverflow.com/questions/5832308/linux-loopback-performance-with-tcp-nodelay-enabled" target="_blank" rel="noopener noreferrer">Linux Loopback performance with TCP_NODELAY enabled<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul> <p>全文完</p> <p>本文由 <a href="http://ksria.com/simpread" target="_blank" rel="noopener noreferrer">简悦 SimpRead<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 优化，用以提升阅读体验</p> <p>使用了 全新的简悦词法分析引擎 beta，<a href="http://ksria.com/simpread/docs/#/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%BC%95%E6%93%8E" target="_blank" rel="noopener noreferrer">点击查看<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>详细说明</p></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main> <div class="footer-wrapper footer"><span><a href="https://beian.miit.gov.cn/">豫ICP备20003255号</a></span> <!----></div></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.16532cd3.js" defer></script><script src="/assets/js/2.a6173bc2.js" defer></script><script src="/assets/js/96.b4b5321b.js" defer></script>
+  </body>
+</html>
