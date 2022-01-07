@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>“基于tcpdump原理手写抓包程序” | 小张笔记</title>
+    <meta name="generator" content="VuePress 1.7.1">
+    <script async="true" src="https://www.googletagmanager.com/gtag/js?id=UA-141019448-1"></script>
+    <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+      
+          gtag('config', 'UA-141019448-1');
+      </script>
+    <script async="true" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2468672938537807" crossorigin="anonymous"></script>
+    <meta name="description" content="Little Zhang's Note">
+    <meta name="baidu-site-verification" content="code-HRrK6kdBX1">
+    
+    <link rel="preload" href="/assets/css/0.styles.ceffaf74.css" as="style"><link rel="preload" href="/assets/js/app.ba829866.js" as="script"><link rel="preload" href="/assets/js/2.a6173bc2.js" as="script"><link rel="preload" href="/assets/js/91.a528f025.js" as="script"><link rel="prefetch" href="/assets/js/10.bf63d664.js"><link rel="prefetch" href="/assets/js/100.8c13d331.js"><link rel="prefetch" href="/assets/js/101.8098f088.js"><link rel="prefetch" href="/assets/js/102.8bc80000.js"><link rel="prefetch" href="/assets/js/103.993c777d.js"><link rel="prefetch" href="/assets/js/104.4eadbcc6.js"><link rel="prefetch" href="/assets/js/105.4d2da361.js"><link rel="prefetch" href="/assets/js/106.ff57c851.js"><link rel="prefetch" href="/assets/js/107.2b0aad6c.js"><link rel="prefetch" href="/assets/js/108.689032c5.js"><link rel="prefetch" href="/assets/js/109.aaa12d29.js"><link rel="prefetch" href="/assets/js/11.894a70f0.js"><link rel="prefetch" href="/assets/js/110.19ed7702.js"><link rel="prefetch" href="/assets/js/111.56f3b2a1.js"><link rel="prefetch" href="/assets/js/112.d890fe56.js"><link rel="prefetch" href="/assets/js/113.30de1a3c.js"><link rel="prefetch" href="/assets/js/114.d446fbbc.js"><link rel="prefetch" href="/assets/js/115.948d60ef.js"><link rel="prefetch" href="/assets/js/116.02cd6202.js"><link rel="prefetch" href="/assets/js/117.8d647b4f.js"><link rel="prefetch" href="/assets/js/118.f1e36d0e.js"><link rel="prefetch" href="/assets/js/119.c75f683b.js"><link rel="prefetch" href="/assets/js/12.edac02a0.js"><link rel="prefetch" href="/assets/js/120.1bd19a58.js"><link rel="prefetch" href="/assets/js/121.cba013bf.js"><link rel="prefetch" href="/assets/js/122.b77050c6.js"><link rel="prefetch" href="/assets/js/123.09dc1f40.js"><link rel="prefetch" href="/assets/js/124.439f290f.js"><link rel="prefetch" href="/assets/js/125.0ba4fef5.js"><link rel="prefetch" href="/assets/js/126.caf7d3d9.js"><link rel="prefetch" href="/assets/js/127.b6cda154.js"><link rel="prefetch" href="/assets/js/128.f76b6b12.js"><link rel="prefetch" href="/assets/js/129.f203879b.js"><link rel="prefetch" href="/assets/js/13.60c4e03a.js"><link rel="prefetch" href="/assets/js/130.8091d9ab.js"><link rel="prefetch" href="/assets/js/131.ab1f3ad8.js"><link rel="prefetch" href="/assets/js/132.320ffcae.js"><link rel="prefetch" href="/assets/js/133.3da1059b.js"><link rel="prefetch" href="/assets/js/134.35bea721.js"><link rel="prefetch" href="/assets/js/135.10af738f.js"><link rel="prefetch" href="/assets/js/136.d931f655.js"><link rel="prefetch" href="/assets/js/137.c2d2e50a.js"><link rel="prefetch" href="/assets/js/138.c1b9848c.js"><link rel="prefetch" href="/assets/js/139.3906b282.js"><link rel="prefetch" href="/assets/js/14.c06ac2a4.js"><link rel="prefetch" href="/assets/js/140.43b99ce1.js"><link rel="prefetch" href="/assets/js/141.9007dc7c.js"><link rel="prefetch" href="/assets/js/142.d1db52ac.js"><link rel="prefetch" href="/assets/js/143.04434d8b.js"><link rel="prefetch" href="/assets/js/144.7236ba5d.js"><link rel="prefetch" href="/assets/js/145.e03157e4.js"><link rel="prefetch" href="/assets/js/146.884247e7.js"><link rel="prefetch" href="/assets/js/147.7f1b3c95.js"><link rel="prefetch" href="/assets/js/148.4b299bed.js"><link rel="prefetch" href="/assets/js/149.ca592161.js"><link rel="prefetch" href="/assets/js/15.edd4f5e0.js"><link rel="prefetch" href="/assets/js/150.c08537e8.js"><link rel="prefetch" href="/assets/js/151.31ea0d84.js"><link rel="prefetch" href="/assets/js/152.ba105ffe.js"><link rel="prefetch" href="/assets/js/153.c3f78fa3.js"><link rel="prefetch" href="/assets/js/154.2ef71005.js"><link rel="prefetch" href="/assets/js/155.16c134fa.js"><link rel="prefetch" href="/assets/js/156.d0e1e8c3.js"><link rel="prefetch" href="/assets/js/157.809c6b15.js"><link rel="prefetch" href="/assets/js/16.b93d6c0b.js"><link rel="prefetch" href="/assets/js/17.50a4cf3d.js"><link rel="prefetch" href="/assets/js/18.fe15def2.js"><link rel="prefetch" href="/assets/js/19.ae3578e4.js"><link rel="prefetch" href="/assets/js/20.870d9de1.js"><link rel="prefetch" href="/assets/js/21.b1e70f48.js"><link rel="prefetch" href="/assets/js/22.89c8dd55.js"><link rel="prefetch" href="/assets/js/23.f639be99.js"><link rel="prefetch" href="/assets/js/24.a7985697.js"><link rel="prefetch" href="/assets/js/25.425f5a75.js"><link rel="prefetch" href="/assets/js/26.d5a8efd0.js"><link rel="prefetch" href="/assets/js/27.be3c7096.js"><link rel="prefetch" href="/assets/js/28.664aa88d.js"><link rel="prefetch" href="/assets/js/29.bdf5dec6.js"><link rel="prefetch" href="/assets/js/3.582414ce.js"><link rel="prefetch" href="/assets/js/30.47341473.js"><link rel="prefetch" href="/assets/js/31.f0e6af55.js"><link rel="prefetch" href="/assets/js/32.3cb17159.js"><link rel="prefetch" href="/assets/js/33.71efbd35.js"><link rel="prefetch" href="/assets/js/34.5f430407.js"><link rel="prefetch" href="/assets/js/35.6f476113.js"><link rel="prefetch" href="/assets/js/36.ef3dfd72.js"><link rel="prefetch" href="/assets/js/37.300b4c9e.js"><link rel="prefetch" href="/assets/js/38.dee41f22.js"><link rel="prefetch" href="/assets/js/39.aa948e85.js"><link rel="prefetch" href="/assets/js/4.de38ec4d.js"><link rel="prefetch" href="/assets/js/40.cd5530ab.js"><link rel="prefetch" href="/assets/js/41.34f39c82.js"><link rel="prefetch" href="/assets/js/42.77d8e6e1.js"><link rel="prefetch" href="/assets/js/43.6eb5ef88.js"><link rel="prefetch" href="/assets/js/44.ad5d9bde.js"><link rel="prefetch" href="/assets/js/45.6a858a8b.js"><link rel="prefetch" href="/assets/js/46.9ed0fdbf.js"><link rel="prefetch" href="/assets/js/47.fb7798e4.js"><link rel="prefetch" href="/assets/js/48.4e02e2a8.js"><link rel="prefetch" href="/assets/js/49.36261cc9.js"><link rel="prefetch" href="/assets/js/5.b649da8c.js"><link rel="prefetch" href="/assets/js/50.942ee843.js"><link rel="prefetch" href="/assets/js/51.43bc5a7a.js"><link rel="prefetch" href="/assets/js/52.f07546c2.js"><link rel="prefetch" href="/assets/js/53.1e66bc89.js"><link rel="prefetch" href="/assets/js/54.0f87d8bb.js"><link rel="prefetch" href="/assets/js/55.d8bb5ab7.js"><link rel="prefetch" href="/assets/js/56.c9b0788d.js"><link rel="prefetch" href="/assets/js/57.12beaef1.js"><link rel="prefetch" href="/assets/js/58.88c795ee.js"><link rel="prefetch" href="/assets/js/59.d295c4de.js"><link rel="prefetch" href="/assets/js/6.a396de83.js"><link rel="prefetch" href="/assets/js/60.d4de7c17.js"><link rel="prefetch" href="/assets/js/61.8c7cc9ce.js"><link rel="prefetch" href="/assets/js/62.77ac5f18.js"><link rel="prefetch" href="/assets/js/63.96aa5a24.js"><link rel="prefetch" href="/assets/js/64.ecd858e4.js"><link rel="prefetch" href="/assets/js/65.b6980f3f.js"><link rel="prefetch" href="/assets/js/66.890e75a0.js"><link rel="prefetch" href="/assets/js/67.2cb4990c.js"><link rel="prefetch" href="/assets/js/68.208deffc.js"><link rel="prefetch" href="/assets/js/69.8a3d5cf9.js"><link rel="prefetch" href="/assets/js/7.03daa1b7.js"><link rel="prefetch" href="/assets/js/70.45c3e66a.js"><link rel="prefetch" href="/assets/js/71.237beb61.js"><link rel="prefetch" href="/assets/js/72.196eb7e1.js"><link rel="prefetch" href="/assets/js/73.0a792cef.js"><link rel="prefetch" href="/assets/js/74.f3d9a3cd.js"><link rel="prefetch" href="/assets/js/75.4bef7b4d.js"><link rel="prefetch" href="/assets/js/76.823db0a9.js"><link rel="prefetch" href="/assets/js/77.aaba26af.js"><link rel="prefetch" href="/assets/js/78.710447dc.js"><link rel="prefetch" href="/assets/js/79.cd3ba5b0.js"><link rel="prefetch" href="/assets/js/8.150af887.js"><link rel="prefetch" href="/assets/js/80.1a710702.js"><link rel="prefetch" href="/assets/js/81.84dcea42.js"><link rel="prefetch" href="/assets/js/82.fbc130b3.js"><link rel="prefetch" href="/assets/js/83.e9c3e48f.js"><link rel="prefetch" href="/assets/js/84.27315e8e.js"><link rel="prefetch" href="/assets/js/85.d5f3f002.js"><link rel="prefetch" href="/assets/js/86.63804700.js"><link rel="prefetch" href="/assets/js/87.6ec00fd9.js"><link rel="prefetch" href="/assets/js/88.aba03ab4.js"><link rel="prefetch" href="/assets/js/89.de91f453.js"><link rel="prefetch" href="/assets/js/9.f7aab732.js"><link rel="prefetch" href="/assets/js/90.c001a1db.js"><link rel="prefetch" href="/assets/js/92.d319a23e.js"><link rel="prefetch" href="/assets/js/93.b3bf1947.js"><link rel="prefetch" href="/assets/js/94.8a7c5662.js"><link rel="prefetch" href="/assets/js/95.44f0f34d.js"><link rel="prefetch" href="/assets/js/96.03c49931.js"><link rel="prefetch" href="/assets/js/97.8665dc84.js"><link rel="prefetch" href="/assets/js/98.27db79d3.js"><link rel="prefetch" href="/assets/js/99.240a023f.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.ceffaf74.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">小张笔记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/索引/Search.html" class="nav-link">
+  Google站内搜索
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Select language" class="dropdown-title"><span class="title">选择语言</span> <span class="arrow down"></span></button> <button type="button" aria-label="Select language" class="mobile-dropdown-title"><span class="title">选择语言</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/en/" class="nav-link">
+  en-US
+</a></li><li class="dropdown-item"><!----> <a href="/file/file_21/211019_基于tcpdump原理手写抓包程序.html" class="nav-link">
+  简体中文
+</a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/索引/Search.html" class="nav-link">
+  Google站内搜索
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Select language" class="dropdown-title"><span class="title">选择语言</span> <span class="arrow down"></span></button> <button type="button" aria-label="Select language" class="mobile-dropdown-title"><span class="title">选择语言</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/en/" class="nav-link">
+  en-US
+</a></li><li class="dropdown-item"><!----> <a href="/file/file_21/211019_基于tcpdump原理手写抓包程序.html" class="nav-link">
+  简体中文
+</a></li></ul></div></div> <!----></nav>  <!----> <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>“基于tcpdump原理手写抓包程序”</span> <!----></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><p>[Linux内核之旅](javascript:void(0)😉 <em>今天</em></p> <p>以下文章来源于技术简说 ，作者董旭</p> <p>本公众号作者为Linux内核之旅社区成员-董旭</p> <p>基于tcpdump原理手动实现抓包程序</p> <p>前面两篇文章分析tcpdump实现抓包原理：</p> <p>1、<a href="http://mp.weixin.qq.com/s?__biz=Mzg5MTU1ODgyMA==&amp;mid=2247483799&amp;idx=1&amp;sn=d31ddd924b8809040c004c5f163cb61d&amp;chksm=cfcacf5cf8bd464abdab4c3a9b571d6e52d0a8d0ee9d71191bbe8ed3c3dfb084e303b636afce&amp;scene=21#wechat_redirect" target="_blank" rel="noopener noreferrer">文章1<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>主要从Linux内核角度分析tcpdump旁路嗅探数据包的过程</p> <p>2、<a href="http://mp.weixin.qq.com/s?__biz=Mzg5MTU1ODgyMA==&amp;mid=2247483893&amp;idx=1&amp;sn=e6ba1fdb1bb5a792ccb141b936eb5211&amp;chksm=cfcacf3ef8bd462868d9b1071c28aa5b7fe0871f48564971079b4a666cd96f1c084877731ba3&amp;scene=21#wechat_redirect" target="_blank" rel="noopener noreferrer">文章2<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>主要从Linux内核角度分析tcpdump利用BPF机制实现数据包捕获前的过滤过程</p> <p>本次将根据前面的分析，手动写一个基于tcpdump工具原理的简易抓包程序，实现从链路层的抓包，加深一下关于tcpdump原理的印象。</p> <h3 id=""><a href="#" class="header-anchor">#</a></h3> <p>流程分析</p> <h4 id="_1、pf-packet协议族的socket"><a href="#_1、pf-packet协议族的socket" class="header-anchor">#</a> 1、PF_PACKET协议族的socket</h4> <p>正如在<a href="http://mp.weixin.qq.com/s?__biz=Mzg5MTU1ODgyMA==&amp;mid=2247483799&amp;idx=1&amp;sn=d31ddd924b8809040c004c5f163cb61d&amp;chksm=cfcacf5cf8bd464abdab4c3a9b571d6e52d0a8d0ee9d71191bbe8ed3c3dfb084e303b636afce&amp;scene=21#wechat_redirect" target="_blank" rel="noopener noreferrer">文章1<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>中分析时，以<code>socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL))</code>为着手点。我们通常都是通过创建PF_PACKET协议族的socket,用来抓包、分析数据的。</p> <p>如下，创建一个PF_PACKET类型的socket,type指定为SOCK_RAW,当指定SOCK_RAW时，获取的数据包是一个完整的数据链路层数据包。proticol字段设置为htons(ETH_P_ALL)，表示接收端数据链路层所有协议帧。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>/*socket函数原型：
+#include &lt;sys/socket.h&gt;
+sockfd = socket(int socket_family, int socket_type, int protocol);
+*/
+sock = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
+ if (sock &lt; 0) {
+  perror(&quot;socket&quot;);
+  return 1;
+ }
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h4 id="_2、设置链路层属性"><a href="#_2、设置链路层属性" class="header-anchor">#</a> 2、设置链路层属性</h4> <h5 id="核心结构体-struct-sockaddr-ll"><a href="#核心结构体-struct-sockaddr-ll" class="header-anchor">#</a> 核心结构体：struct sockaddr_ll</h5> <div class="language- line-numbers-mode"><pre class="language-text"><code>struct sockaddr_ll
+{
+ unsigned short int sll_family; /* 一般为AF_PACKET */
+ unsigned short int sll_protocol; /* 上层协议类型 */
+ int  sll_ifindex; /* 网卡接口索引号，0 匹配所有的网络接口卡 */
+ unsigned short int sll_hatype; /* 报头类型 */
+ unsigned char sll_pkttype; /* 包类型 */
+ unsigned char sll_halen; /* 地址长度 */
+ unsigned char sll_addr[8]; /* MAC地址 */
+};
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>该结构体为设备无关的物理层地址结构，数据链路层的头信息通常定义在sockaddr_all的结构体中，当发送数据包时，指定 sll_family, sll_addr, sll_halen, sll_ifindex, sll_protocol 就足够了。其它字段设置为0；sll_hatype和 sll_pkttype是在接收数据包时使用的；如果要bind, 只需要使用 sll_protocol和 sll_ifindex就足够。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code> struct sockaddr_ll addr;
+ memset(&amp;addr, 0, sizeof(addr));
+ addr.sll_ifindex = if_nametoindex(name);//name为当前要抓包的网卡接口名称
+ addr.sll_family = AF_PACKET;
+ addr.sll_protocol = htons(ETH_P_ALL);
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h4 id="_3、将创建的soccket与地址绑定"><a href="#_3、将创建的soccket与地址绑定" class="header-anchor">#</a> 3、将创建的soccket与地址绑定</h4> <div class="language- line-numbers-mode"><pre class="language-text"><code> if (bind(sock, (struct sockaddr *) &amp;addr, sizeof(addr))) {
+  perror(&quot;bind&quot;);
+  return 1;
+ }
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h4 id="_4、抓包的过滤条件"><a href="#_4、抓包的过滤条件" class="header-anchor">#</a> 4、抓包的过滤条件</h4> <p>在<a href="http://mp.weixin.qq.com/s?__biz=Mzg5MTU1ODgyMA==&amp;mid=2247483893&amp;idx=1&amp;sn=e6ba1fdb1bb5a792ccb141b936eb5211&amp;chksm=cfcacf3ef8bd462868d9b1071c28aa5b7fe0871f48564971079b4a666cd96f1c084877731ba3&amp;scene=21#wechat_redirect" target="_blank" rel="noopener noreferrer">文章2<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>中，介绍了BPF过滤机制，在tcpdump的过滤机制中有一个重要的结构体:struct sock_filter，同时也是cBPF汇编的一个框架</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>struct sock_filter {
+ __u16 code;   /*指令  32位*/
+ __u8 jt; /* jt是指令结果为true的跳转 */
+ __u8 jf; /* jf是为false的跳转 */
+ __u32 k;      /* 指令参数*/
+};
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>该结构体一般是封装在struct sock_fprog中使用:</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>struct sock_fprog      
+{
+    unsigned short  len;   
+    struct sock_filter   *filter;
+};
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>在<a href="http://mp.weixin.qq.com/s?__biz=Mzg5MTU1ODgyMA==&amp;mid=2247483799&amp;idx=1&amp;sn=d31ddd924b8809040c004c5f163cb61d&amp;chksm=cfcacf5cf8bd464abdab4c3a9b571d6e52d0a8d0ee9d71191bbe8ed3c3dfb084e303b636afce&amp;scene=21#wechat_redirect" target="_blank" rel="noopener noreferrer">文章1<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>中分析过，使用tcpdump -d参数可以生成BPF汇编伪代码：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>dx@ubuntu:~$ sudo tcpdump -d 'ip and tcp port 80'
+(000) ldh      [12]
+(001) jeq      #0x800           jt 2    jf 12
+(002) ldb      [23]
+(003) jeq      #0x6             jt 4    jf 12
+(004) ldh      [20]
+(005) jset     #0x1fff          jt 12   jf 6
+(006) ldxb     4*([14]&amp;0xf)
+(007) ldh      [x + 14]
+(008) jeq      #0x50            jt 11   jf 9
+(009) ldh      [x + 16]
+(010) jeq      #0x50            jt 11   jf 12
+(011) ret      #262144
+(012) ret      #0
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p>这种伪代码在C程序中是无法使用的，需要借用tcpdump -dd参数生成等效的c代码：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>dx@ubuntu:~$ sudo tcpdump -dd 'ip and tcp port 80'
+{ 0x28, 0, 0, 0x0000000c },
+{ 0x15, 0, 10, 0x00000800 },
+{ 0x30, 0, 0, 0x00000017 },
+{ 0x15, 0, 8, 0x00000006 },
+{ 0x28, 0, 0, 0x00000014 },
+{ 0x45, 6, 0, 0x00001fff },
+{ 0xb1, 0, 0, 0x0000000e },
+{ 0x48, 0, 0, 0x0000000e },
+{ 0x15, 2, 0, 0x00000050 },
+{ 0x48, 0, 0, 0x00000010 },
+{ 0x15, 0, 1, 0x00000050 },
+{ 0x6, 0, 0, 0x00040000 },
+{ 0x6, 0, 0, 0x00000000 },
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p>这段代码就是struct sock_filter：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>static struct sock_filter bpfcode[13] = {
+{ 0x28, 0, 0, 0x0000000c },
+{ 0x15, 0, 10, 0x00000800 },
+{ 0x30, 0, 0, 0x00000017 },
+{ 0x15, 0, 8, 0x00000006 },
+{ 0x28, 0, 0, 0x00000014 },
+{ 0x45, 6, 0, 0x00001fff },
+{ 0xb1, 0, 0, 0x0000000e },
+{ 0x48, 0, 0, 0x0000000e },
+{ 0x15, 2, 0, 0x00000050 },
+{ 0x48, 0, 0, 0x00000010 },
+{ 0x15, 0, 1, 0x00000050 },
+{ 0x6, 0, 0, 0x00040000 },
+{ 0x6, 0, 0, 0x00000000 },
+};
+
+struct sock_fprog bpf = { 13, bpfcode };
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h4 id="_5、设置bpf过滤器"><a href="#_5、设置bpf过滤器" class="header-anchor">#</a> 5、设置BPF过滤器</h4> <p>Linux在安装和卸载过滤器时都使用了函数setsockopt(),其中标志SOL_SOCKET代表对socket进行设置，SO_ATTACH_FILTER表示安装过滤器动作，setsockopt在内核中的调用可以看<a href="http://mp.weixin.qq.com/s?__biz=Mzg5MTU1ODgyMA==&amp;mid=2247483893&amp;idx=1&amp;sn=e6ba1fdb1bb5a792ccb141b936eb5211&amp;chksm=cfcacf3ef8bd462868d9b1071c28aa5b7fe0871f48564971079b4a666cd96f1c084877731ba3&amp;scene=21#wechat_redirect" target="_blank" rel="noopener noreferrer">文章2<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>setsockopt(sd, SOL_SOCKET, SO_ATTACH_FILTER, &amp;Filter, sizeof(Filter));
+ if (setsockopt(sock, SOL_SOCKET, SO_ATTACH_FILTER, &amp;bpf, sizeof(bpf))) {
+  perror(&quot;setsockopt ATTACH_FILTER&quot;);
+  return 1;
+ }
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h4 id="_6、设置网卡的混杂模式"><a href="#_6、设置网卡的混杂模式" class="header-anchor">#</a> 6、设置网卡的混杂模式</h4> <p>关键结构体：struct packet_mreq</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>struct packet_mreq
+{
+intmr_ifindex; /* 接口索引 */
+unsigned shortmr_type; /* mreq 类型 */
+unsigned shortmr_alen; /* 地址长度 */
+unsigned charmr_address[8]; /* 物理地址 */
+};
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>混杂模式：</p> <p>混杂模式就是接收所有经过网卡的数据包，包括不是发给本机的包，默认情况下网卡只把发给本机的包（包括广播包）传递给上层程序，其它的包一律丢弃；简单的讲，混杂模式就是指网卡能接受所有通过它的数据流，不管是什么格式，什么地址，当网卡处于混杂模式时，该网卡就具有“广播地址”，它对所有遇到的每一个数据帧都产生一个硬件中断，以便提醒操作系统处理流经过该物理媒体上的每一个报文包。</p> <p>通过<code>shortmr_type</code>字段可以设置混杂模式</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    struct packet_mreq mreq;
+    memset(&amp;mreq, 0, sizeof(mreq));
+ mreq.mr_type = PACKET_MR_PROMISC;//设置混杂模式
+ mreq.mr_ifindex = if_nametoindex(name);
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>将设置的混杂模式设置到socket:</p> <div class="language- line-numbers-mode"><pre class="language-text"><code> if (setsockopt(sock, SOL_PACKET,
+    PACKET_ADD_MEMBERSHIP, (char *)&amp;mreq, sizeof(mreq))) {
+  perror(&quot;setsockopt MR_PROMISC&quot;);//ACKET_ADD_MEMBERSHIP 用于增加一个绑定
+  return 1;
+ }
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h4 id="_7、定义要获得的数据报文信息"><a href="#_7、定义要获得的数据报文信息" class="header-anchor">#</a> 7、定义要获得的数据报文信息</h4> <h5 id="源和目的mac地址"><a href="#源和目的mac地址" class="header-anchor">#</a> 源和目的MAC地址</h5> <p>关键结构体：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>struct ether_header
+{
+  uint8_t  ether_dhost[ETH_ALEN]; /* 目的MAC地址 */
+  uint8_t  ether_shost[ETH_ALEN]; /* 源MAC地址 */
+  uint16_t ether_type;          /* packet type ID field */
+};
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>IP信息(源、目的IP，IP版本)、上层协议类型</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>struct iphdr
+  {
+#if __BYTE_ORDER == __LITTLE_ENDIAN
+    unsigned int ihl:4;
+    unsigned int version:4;
+#elif __BYTE_ORDER == __BIG_ENDIAN
+    unsigned int version:4;
+    unsigned int ihl:4;
+#else
+# error &quot;Please fix &lt;bits/endian.h&gt;&quot;
+#endif
+    uint8_t tos;
+    uint16_t tot_len;
+    uint16_t id;
+    uint16_t frag_off;
+    uint8_t ttl;
+    uint8_t protocol;  //上层协议类型
+    uint16_t check;
+    uint32_t saddr;   //源地址
+    uint32_t daddr;   //目的地址
+    /*The options start here. */
+  };
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br></div></div><h4 id="_8、循环接收捕获的数据包"><a href="#_8、循环接收捕获的数据包" class="header-anchor">#</a> 8、循环接收捕获的数据包</h4> <p>在<a href="http://mp.weixin.qq.com/s?__biz=Mzg5MTU1ODgyMA==&amp;mid=2247483799&amp;idx=1&amp;sn=d31ddd924b8809040c004c5f163cb61d&amp;chksm=cfcacf5cf8bd464abdab4c3a9b571d6e52d0a8d0ee9d71191bbe8ed3c3dfb084e303b636afce&amp;scene=21#wechat_redirect" target="_blank" rel="noopener noreferrer">文章1<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>中，分析了数据包是怎样捕获的:</p> <blockquote><p>回顾：</p> <p>tcpdump进行抓包的内核流程梳理</p> <ul><li>应用层通过libpcap库：调用系统调用创建socket,<code>sock_fd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL));</code>tcpdump在socket创建过程中创建packet_type(struct packet_type),并挂载到全局的ptype_all链表上。(同时在packet_type设置回调函数packet_rcv</li> <li>网络收包/发包时，会在各自的处理函数(收包时：<code>__netif_receive_skb_core</code>，发包时：<code>dev_queue_xmit_nit</code>)中遍历ptype_all链表，并同时执行其回调函数，这里tcpdump的注册的回调函数就是packet_rcv</li> <li>packet_rcv函数中会将用户设置的过滤条件，通过BPF进行过滤，并将过滤的数据包添加到接收队列中</li> <li>应用层调用recvfrom 。PF_PACKET 协议簇模块调用packet_recvmsg 将接收队列中的数据copy应用层，到此将数据包捕获到。</li></ul></blockquote> <p>所以上面创建好的PF_PACKET类型socket，并设置好过滤器后，当网卡有数据进出时，就已经将数据报文添加到了接收队列上了，下面只需要我们进行recv获取数据报文即可。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code> for (;;) {
+  n = recv(sock, buf, sizeof(buf), 0);
+  if (n &lt; 1) {
+   perror(&quot;recv&quot;);
+   return 0;
+  }
+        //获取链路层的源和目的地址
+  mac_hdr=(struct ether_header *)buf;
+
+  ip = (struct iphdr *)(buf + sizeof(struct ether_header));
+
+  inet_ntop(AF_INET, &amp;ip-&gt;saddr, saddr_str, sizeof(saddr_str));
+  inet_ntop(AF_INET, &amp;ip-&gt;daddr, daddr_str, sizeof(daddr_str));
+
+  switch (ip-&gt;protocol) {
+#define PTOSTR(_p,_str) \
+   case _p: proto_str = _str; break
+
+  PTOSTR(IPPROTO_ICMP, &quot;icmp&quot;);
+  PTOSTR(IPPROTO_TCP, &quot;tcp&quot;);
+  PTOSTR(IPPROTO_UDP, &quot;udp&quot;);
+  default:
+   proto_str = &quot;&quot;;
+   break;
+  }
+        printf(&quot; SMAC:%X:%X:%X:%X:%X:%X&quot;,
+    (u_char)mac_hdr-&gt;ether_shost[0],
+    (u_char)mac_hdr-&gt;ether_shost[1],
+    (u_char)mac_hdr-&gt;ether_shost[2],
+    (u_char)mac_hdr-&gt;ether_shost[3],
+    (u_char)mac_hdr-&gt;ether_shost[4],
+    (u_char)mac_hdr-&gt;ether_shost[5]
+   );
+
+  printf(&quot; ==&gt;  DMAC:%X:%X:%X:%X:%X:%X  &quot;,
+    (u_char)mac_hdr-&gt;ether_dhost[0],
+    (u_char)mac_hdr-&gt;ether_dhost[1],
+    (u_char)mac_hdr-&gt;ether_dhost[2],
+    (u_char)mac_hdr-&gt;ether_dhost[3],
+    (u_char)mac_hdr-&gt;ether_dhost[4],
+    (u_char)mac_hdr-&gt;ether_dhost[5]
+   );
+  printf(&quot;IPv%d proto=%d(%s) src=%s dst=%s\n&quot;,
+    ip-&gt;version, ip-&gt;protocol, proto_str, saddr_str, daddr_str);
+ }
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br></div></div><p>至此，从创建socket，到设置socket过滤器、网卡工作模式，到接收捕获的数据包就结束了。</p> <h3 id="-2"><a href="#-2" class="header-anchor">#</a></h3> <p>附：源代码</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_gif/EjWxxIM2EQJDl28hhtwMqByPiceMkObWic7WIIXpTBn5ibvVNKicK8Dhjga8Q1zasPKVgbhC4vd3CyyCH4tJMvicQ2Q/640?wx_fmt=gif&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="图片"></p> <p>实现捕获数据包的过滤条件：ip and tcp port 80</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;net/if.h&gt;
+#include &lt;net/ethernet.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;netinet/ip.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;netpacket/packet.h&gt;
+#include &lt;linux/filter.h&gt;
+
+static struct sock_filter bpfcode[13] = {
+{ 0x28, 0, 0, 0x0000000c },
+{ 0x15, 0, 10, 0x00000800 },
+{ 0x30, 0, 0, 0x00000017 },
+{ 0x15, 0, 8, 0x00000006 },
+{ 0x28, 0, 0, 0x00000014 },
+{ 0x45, 6, 0, 0x00001fff },
+{ 0xb1, 0, 0, 0x0000000e },
+{ 0x48, 0, 0, 0x0000000e },
+{ 0x15, 2, 0, 0x00000050 },
+{ 0x48, 0, 0, 0x00000010 },
+{ 0x15, 0, 1, 0x00000050 },
+{ 0x6, 0, 0, 0x00040000 },
+{ 0x6, 0, 0, 0x00000000 },
+};
+
+int main(int argc, char **argv)
+{
+ int sock;
+ int n;
+ char buf[2000];
+ struct sockaddr_ll addr;
+ struct packet_mreq mreq;
+ struct iphdr *ip;
+    struct ether_header *mac_hdr;
+    char saddr_str[INET_ADDRSTRLEN], daddr_str[INET_ADDRSTRLEN];
+ char *proto_str;
+ char *name;
+ struct sock_fprog bpf = { 13, bpfcode };
+
+ if (argc != 2) {
+  printf(&quot;Usage: %s ifname\n&quot;, argv[0]);
+  return 1;
+ }
+
+ name = argv[1];
+
+ sock = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
+ if (sock &lt; 0) {
+  perror(&quot;socket&quot;);
+  return 1;
+ }
+
+ memset(&amp;addr, 0, sizeof(addr));
+ addr.sll_ifindex = if_nametoindex(name);
+ addr.sll_family = AF_PACKET;
+ addr.sll_protocol = htons(ETH_P_ALL);
+
+ if (bind(sock, (struct sockaddr *) &amp;addr, sizeof(addr))) {
+  perror(&quot;bind&quot;);
+  return 1;
+ }
+
+ if (setsockopt(sock, SOL_SOCKET, SO_ATTACH_FILTER, &amp;bpf, sizeof(bpf))) {
+  perror(&quot;setsockopt ATTACH_FILTER&quot;);
+  return 1;
+ }
+
+ memset(&amp;mreq, 0, sizeof(mreq));
+ mreq.mr_type = PACKET_MR_PROMISC;
+ mreq.mr_ifindex = if_nametoindex(name);
+
+ if (setsockopt(sock, SOL_PACKET,
+    PACKET_ADD_MEMBERSHIP, (char *)&amp;mreq, sizeof(mreq))) {
+  perror(&quot;setsockopt MR_PROMISC&quot;);
+  return 1;
+ }
+
+ for (;;) {
+  n = recv(sock, buf, sizeof(buf), 0);
+  if (n &lt; 1) {
+   perror(&quot;recv&quot;);
+   return 0;
+  }
+        //获取链路层的源和目的地址
+  mac_hdr=(struct ether_header *)buf;
+
+  ip = (struct iphdr *)(buf + sizeof(struct ether_header));
+
+  inet_ntop(AF_INET, &amp;ip-&gt;saddr, saddr_str, sizeof(saddr_str));
+  inet_ntop(AF_INET, &amp;ip-&gt;daddr, daddr_str, sizeof(daddr_str));
+
+  switch (ip-&gt;protocol) {
+#define PTOSTR(_p,_str) \
+   case _p: proto_str = _str; break
+
+  PTOSTR(IPPROTO_ICMP, &quot;icmp&quot;);
+  PTOSTR(IPPROTO_TCP, &quot;tcp&quot;);
+  PTOSTR(IPPROTO_UDP, &quot;udp&quot;);
+  default:
+   proto_str = &quot;&quot;;
+   break;
+  }
+        printf(&quot; SMAC:%X:%X:%X:%X:%X:%X&quot;,
+    (u_char)mac_hdr-&gt;ether_shost[0],
+    (u_char)mac_hdr-&gt;ether_shost[1],
+    (u_char)mac_hdr-&gt;ether_shost[2],
+    (u_char)mac_hdr-&gt;ether_shost[3],
+    (u_char)mac_hdr-&gt;ether_shost[4],
+    (u_char)mac_hdr-&gt;ether_shost[5]
+   );
+
+  printf(&quot; ==&gt;  DMAC:%X:%X:%X:%X:%X:%X  &quot;,
+    (u_char)mac_hdr-&gt;ether_dhost[0],
+    (u_char)mac_hdr-&gt;ether_dhost[1],
+    (u_char)mac_hdr-&gt;ether_dhost[2],
+    (u_char)mac_hdr-&gt;ether_dhost[3],
+    (u_char)mac_hdr-&gt;ether_dhost[4],
+    (u_char)mac_hdr-&gt;ether_dhost[5]
+   );
+  printf(&quot;IPv%d proto=%d(%s) src=%s dst=%s\n&quot;,
+    ip-&gt;version, ip-&gt;protocol, proto_str, saddr_str, daddr_str);
+ }
+
+ return 0;
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br><span class="line-number">99</span><br><span class="line-number">100</span><br><span class="line-number">101</span><br><span class="line-number">102</span><br><span class="line-number">103</span><br><span class="line-number">104</span><br><span class="line-number">105</span><br><span class="line-number">106</span><br><span class="line-number">107</span><br><span class="line-number">108</span><br><span class="line-number">109</span><br><span class="line-number">110</span><br><span class="line-number">111</span><br><span class="line-number">112</span><br><span class="line-number">113</span><br><span class="line-number">114</span><br><span class="line-number">115</span><br><span class="line-number">116</span><br><span class="line-number">117</span><br><span class="line-number">118</span><br><span class="line-number">119</span><br><span class="line-number">120</span><br><span class="line-number">121</span><br><span class="line-number">122</span><br><span class="line-number">123</span><br><span class="line-number">124</span><br><span class="line-number">125</span><br><span class="line-number">126</span><br><span class="line-number">127</span><br><span class="line-number">128</span><br></div></div><h4 id="运行"><a href="#运行" class="header-anchor">#</a> 运行：</h4> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/EjWxxIM2EQLoiaBp9GUEWP5Qx1RQRc0CFGcDVdUb9aaJyWYhmI3LuPZh6wMy1kaEjO7ibnT510jXTAJzLytF2Rwg/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <blockquote><p>注意：程序指定的参数：ens33为自己的网卡接口名称，可以通过ip addr进行查看。</p></blockquote> <p>喜欢此内容的人还喜欢</p> <p>Filebeat、Logstash、Rsyslog 各种姿势采集Nginx日志</p> <p>高效运维</p> <p>不喜欢</p> <p>不看的原因</p> <p>确定</p> <ul><li><p>内容质量低</p></li> <li></li> <li><p>不看此公众号</p></li></ul> <p><img src="https://mp.weixin.qq.com/mp/qrcode?scene=10000004&amp;size=102&amp;__biz=MzI3NzA5MzUxNA==&amp;mid=2664610380&amp;idx=1&amp;sn=2f15cdfb6e31bcd5b5f62437ca4c7740&amp;send_time=" alt="img"></p> <p>微信扫一扫
+关注该公众号</p> <p>：，。视频小程序赞，轻点两下取消赞在看，轻点两下取消在看</p></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main> <div class="footer-wrapper footer"><span><a href="https://beian.miit.gov.cn/">豫ICP备20003255号</a></span> <!----></div></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.ba829866.js" defer></script><script src="/assets/js/2.a6173bc2.js" defer></script><script src="/assets/js/91.a528f025.js" defer></script>
+  </body>
+</html>
